@@ -85,6 +85,13 @@ Each recipe below is proven, with a shot, and is the #1 hit for its query
 | To-do / checklist | `postlab.sp-327f35e24cd54ab9bcefe4be07d7fb01` task_list | `checkable to-do list` | Done rows go in `doneItems`. `priority: null`. Short due words. |
 | Today's schedule | `postlab.sp-3d99b91b2c71422b9062ba3b3e828a7e` day_timeline | `hourly calendar timetable` | `knobs.view: calendar` in narrow cards. Trim with `hourStart`/`hourEnd`. |
 
+**Check the frontend manual before you write any atom, prop or action.** It is generated from the
+running app, so it is the truth when this skill and the app disagree:
+`GET http://127.0.0.1:18587/api/v1/contract/frontend?section=index` lists the components, then
+`?section=components&name=<name>` gives one component's props and actions. Don't use a prop or action
+the manual doesn't list. If the route answers 503, the backend is missing its generated contract.
+Say so; don't guess around it.
+
 Don't use kpis or watchlist in a widget: they break rules 5 and 6. Write a sealed atom only for the
 part no spread draws, and say why in one line. Never build a second token system, engine or
 hand-made mockup.
