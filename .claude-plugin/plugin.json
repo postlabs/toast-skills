@@ -1,0 +1,9 @@
+{
+  "name": "toast-skills",
+  "version": "0.1.0",
+  "description": "Skills for building with Toast. toast-custom-ui: desk widgets, pages, pop-outs and pieces that are right the first time.",
+  "author": { "name": "Postlabs", "email": "contact@postlabs.dev" },
+  "homepage": "https://github.com/postlabs/toast-skills",
+  "repository": "https://github.com/postlabs/toast-skills",
+  "keywords": ["toast", "ui", "widget", "design", "desktop"]
+}

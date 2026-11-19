@@ -1,0 +1,18 @@
+{
+  "name": "toast-skills",
+  "version": "0.1.0",
+  "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
+  "author": { "name": "Postlabs", "email": "contact@postlabs.dev" },
+  "repository": "https://github.com/postlabs/toast-skills",
+  "keywords": ["toast", "ui", "widget", "design", "desktop"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Toast Skills",
+    "shortDescription": "Build Toast widgets, pages and mini apps right the first time.",
+    "longDescription": "toast-custom-ui: echo the ask, ask or default, reuse a spread recipe, pick a reference, build the window frame first, capture the real surface and score it against a checklist before saying done.",
+    "developerName": "Postlabs",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Make me a small desk widget in Toast."
+  }
+}
