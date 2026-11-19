@@ -23,13 +23,21 @@ Codex:
 
 ```
 codex plugin marketplace add https://github.com/postlabs/toast-skills
+codex plugin add toast-skills@toast-skills
 ```
+
+Antigravity (agy) and Gemini CLI read the same repo: `plugin.json` is the
+[Agent Plugins 1.0](https://agent-plugins.org) source, and `gemini-extension.json` is generated from it.
+
+The skill needs only a running Toast backend: no source checkout, no app window in front.
 
 ## Layout
 
 ```
+plugin.json              the one source; edit this
 skills/toast-custom-ui/
-  SKILL.md        the procedure
-  reference/      taste rules, spread recipes, outside references, the see-it loop
-  scripts/        see-it.ps1 (capture any window), shot-check.py, ui-lint.py, probes
+  SKILL.md               the procedure
+  reference/             taste rules, spread recipes, outside references, the see-it loop, skin tokens
+  scripts/               see-it.mjs (capture through the backend), shot-check.py, ui-lint.py, probes
+tools/build-plugins.mjs  writes .claude-plugin/, .codex-plugin/, gemini-extension.json; --check for CI
 ```

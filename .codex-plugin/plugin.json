@@ -1,10 +1,20 @@
 {
   "name": "toast-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
-  "author": { "name": "Postlabs", "email": "contact@postlabs.dev" },
+  "author": {
+    "name": "Postlabs",
+    "email": "contact@postlabs.dev"
+  },
+  "homepage": "https://github.com/postlabs/toast-skills",
   "repository": "https://github.com/postlabs/toast-skills",
-  "keywords": ["toast", "ui", "widget", "design", "desktop"],
+  "keywords": [
+    "toast",
+    "ui",
+    "widget",
+    "design",
+    "desktop"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Toast Skills",
@@ -13,6 +23,8 @@
     "developerName": "Postlabs",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "Make me a small desk widget in Toast."
+    "defaultPrompt": [
+      "Make me a small desk widget in Toast."
+    ]
   }
 }

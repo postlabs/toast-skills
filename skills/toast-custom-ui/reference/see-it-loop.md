@@ -10,77 +10,59 @@ Ship only when a fresh capture scores no **blocker** and no **major**. Put the f
 capture in the result (the user should be able to see what you saw).
 Taste comes from **TASTE.md** (the user's own rules T1–T7); the rubric below carries them.
 
-## Run it (one command)
+## Run it (backend only)
 
-```powershell
-$Q = "<this skill folder>\scripts"
-# 1. where is the window?  interface(op=read) -> desktop.open[].bounds (DIP)
-# 2. capture + measure + lint, exit 1 on any major / flag:
-pwsh -File "$Q\see-it.ps1" -DipBounds "1472,16,560,880" -Out "$Q\shots\<name>.png" -Check -Lint "<jar>\atoms\<family>\atom.js"
-# 3. open the PNG (Read tool), crop + 2x bar / a row / corners, score R1-R17 below
+```sh
+S=<this skill folder>/scripts
+# 1. picture the real surface: every desk window, or the ids you name (config.windows[].id)
+node $S/see-it.mjs desk dev-tree --out shots
+# 2. measure it and lint the code; each exits 1 on a major or a flag
+python $S/shot-check.py shots/desk-dev-tree-<stamp>.jpg
+python $S/ui-lint.py <your atom.js or folder>
+# 3. states and skins the live window cannot show: headless, with the skins' tokens and the backend's font
+node $S/piece-probe.mjs cases.json
+# 4. open the pictures (Read tool), crop + 2x the bar, a row and the corners, score R1-R17 below
 ```
 
-Three parts, each also usable alone:
+Everything goes through the Toast backend (`PEEL_BASE_URL`, default `http://127.0.0.1:18587/api/v1`).
+There is no OS screenshot and no Toast source checkout, and nothing in the user's Toast changes.
 
 | Tool | Sees | Catches without judgment |
 |---|---|---|
-| `see-it.ps1` | the real window, covered or not | blank / unpainted capture |
-| `shot-check.py <png>` | pixels | extra body fills (card in card, full-width highlight or share bars), a vertical panel edge inside the window, numbers columns ending at different x |
-| `ui-lint.py <atom.js or folder>` | code | non-app font, more than two type sizes and odd weights, chevrons and icon-only controls, raw colours outside tokens, share bars, glows/gradients, filled+rounded+bordered boxes (card in card), `visibility:hidden` column shifts, "1 files" plurals, missing empty/loading/error states, ellipsis without a title |
+| `see-it.mjs desk / app` | the real window as the app draws it, covered or not | an unavailable or unpainted window (`ok: false` with the reason) |
+| `piece-probe.mjs` | a piece in any skin and state, headless | rendered font sizes, whether Pretendard loaded, truncated text without a title |
+| `shot-check.py <png or jpg>` | pixels | a blank capture, extra body fills (a card in a card, or full-width highlight or share bars), a vertical panel edge inside the window, number columns ending at different x |
+| `ui-lint.py <atom.js or folder>` | code | non-app font, more than two type sizes and odd weights, chevrons and icon-only controls, raw colours outside tokens, share bars, glows and gradients, filled+rounded+bordered boxes (a card in a card), `visibility:hidden` column shifts, "1 files" plurals, missing empty/loading/error states, ellipsis without a title |
 
-Calibration: same tools, three Dev Tree versions (atoms under the profile's
-`spreads/4945d4b2ec04/devtools/atoms/`):
+Calibration: the same tools on three Dev Tree versions:
 
 | Version | ui-lint | shot-check | What the user said |
 |---|---|---|---|
 | devtree (v1) | **3 major**: system-ui font, icon-only "more"/"dots" | (no capture kept) | font, strip, no title |
 | devtreeview (v1.5) | **6 major**: 5 type sizes, icon-only expand/collapse/more/dots, share bar | **2 flags**: 3 body fills (share bars), numbers at x=618 vs 652 | header card in card, too many sizes, chevrons |
-| devtreelist (v2, TASTE worked example, live now) | **0 major**, 4 minor ("1 files" in the hover title, no error state, one raw shadow colour) | **0 flags**: one body fill, one numbers edge at x=650 | the lead's reference |
+| devtreelist (v2) | **0 major**, 4 minor ("1 files" in the hover title, no error state, one raw shadow colour) | **0 flags**: one body fill, one numbers edge | the lead's reference |
 
 The tools rank the versions the way the user did, with no human in the loop. They do not
 replace looking: alignment of names, contrast, overlap and whether the bar is right are
-still read from the picture. Known blind spots: a subtle gradient body reads as one fill
-(correct for the stock card window: its body is a dithered left-to-right gradient
-(21,26,52)→(27,29,62), not an inset panel); tolerances are tuned on dark skins only.
+still read from the picture. Known blind spots: a subtle gradient body reads as one fill,
+which is correct for the stock card window, whose body is a dithered gradient. Tolerances are tuned on dark skins only.
 
 ---
 
-## 1. Capture — one way per surface
+## 1. Capture: one way per surface
 
-| Surface | How | Proven here |
+| Surface | How | Notes |
 |---|---|---|
-| Desk window: card / pinned / wallpaper widget, or the app window itself | `see-it.ps1` (this folder): UI Automation + EnumWindows find the HWND, `PrintWindow(hwnd, PW_RENDERFULLCONTENT=2)` paints it even when covered | yes — `shots/devtree-card.png`, Dev Tree card captured while Chrome / Terminal / KakaoTalk sat over it |
-| App page (what the app window shows) | `interface(op=preview)` | yes, with a trap: **`page=` is ignored**; it pictures whatever page the window shows now (asked `/pages/dev-tree`, got `/quests`, `snapshot_state.page` says so). Read `snapshot_state.page` before scoring. To see a page that is not on screen, put it in a window (`windows` patch) and use `see-it.ps1`. |
-| Canvas pane | `render(..., picture: true)` | documented route; the BRIEF notes a sealed atom draws blank / "not installed" in the canvas until finalize — so score sealed pieces through their desk window or app page, not the canvas preview |
+| Desk window (card, pinned, wallpaper) | `interface(op=apply)` returns `desk_pictures` for every window it touched; `see-it.mjs desk [ids]` looks again without a change | Each window's own page as it draws now (Electron `capturePage`), so other windows on top do not matter. A wallpaper is pictured from a hidden copy of its page. A window outside the app is not pictured. |
+| App window | `interface(op=preview)` or `see-it.mjs app` | **`page=` is ignored**: it pictures whatever page the window shows now (asked for `/pages/dev-tree`, got `/quests`). Read `snapshot_state.page` before scoring. To see your page, put it in a desk window (`windows` patch) and use `see-it.mjs desk`. |
+| A piece in states and skins you cannot reach live | `piece-probe.mjs cases.json` | Uses the skins' token blocks (`skin-tokens.css`) and the backend's Pretendard. `font: fallback` in its report means the backend did not answer: do not score R3 then. |
+| Canvas pane | `render(..., picture: true)` | A sealed atom draws blank or "not installed" in the canvas until finalize, so score sealed pieces through their desk window, `piece-probe.mjs` or `probe_frame.mjs`. |
+| No desktop app | none | A backend on its own has no screen: `see-it.mjs` answers `unavailable`. Score the headless pictures and say the live window was not seen. |
 
-### see-it.ps1
-
-```powershell
-$S = "<this folder>\see-it.ps1"
-pwsh -File $S -List -Process electron          # hwnd, pid, physical bounds, title
-pwsh -File $S -DipBounds "1472,16,560,880"     # match interface(op=read).desktop.open[].bounds
-pwsh -File $S -Title "Dev Tree" -Out shots\x.png
-pwsh -File $S -Hwnd 0x21F0020 -WaitMs 800      # wait for a feed / animation first
-```
-
-Prints one JSON line: `{path, hwnd, title, width, height, verdict, sampled_colours}`.
-
-- **Find by `-DipBounds`, not title.** Every Toast window is titled `Toast` (app window and
-  the Dev Tree card both were), so a title match is ambiguous. `interface(op=read)` →
-  `desktop.open[].bounds` gives each window's DIP rect; the script converts every candidate
-  with its own monitor DPI (`GetDpiForWindow`) and matches within 12 DIP.
-- Physical pixels: the 560×880 DIP card at 125 % is a 700×1100 PNG.
-- `verdict: blank` = one flat colour → the capture failed or nothing painted yet. Retry with
-  `-WaitMs`; never score a blank frame.
-- Minimized windows are restored without focus, captured and minimized again.
-- Transparent card windows: transparent pixels come out **black** (the 1–5 px black edge in
-  `shots/devtree-card.png`). That is the capture, not a flaw — do not "fix" it.
-- Runs under Windows PowerShell 5.1; started from pwsh it re-launches itself there (the
-  System.Drawing interop does not compile under pwsh 7 / .NET 10).
-- Look closer: crop and 2× the region you are judging (`shots/devtree-card-head-2x.png`).
-  Spacing and double-surface defects are invisible at full-window scale.
-- Also measure, don't eyeball: sample pixels (PIL) for "same surface?" and column x-edges
-  for alignment.
+- Look closer: crop and enlarge 2× the region you are judging. Spacing and double-surface defects are
+  invisible at full-window scale.
+- Measure, don't eyeball: sample pixels to answer "same surface?", and measure column x-edges for alignment.
+- Never score a blank or `ok: false` picture; retry after the window has drawn.
 
 ---
 
@@ -179,7 +161,7 @@ look they chose, adds actions that reach outside the PC, or the purpose itself i
 - [ ] Ask (or state the defaults taken) — §3
 - [ ] Pick the form from the spreads library first (`find(op=spreads)` by form); code only when no spread fits
 - [ ] Build; open it where it will live (window / page)
-- [ ] `see-it.ps1 -DipBounds …` (desk) or `interface(op=preview)` with `snapshot_state.page` checked (page)
+- [ ] `see-it.mjs desk <id>` (desk window) or `interface(op=preview)` with `snapshot_state.page` checked (app page); `piece-probe.mjs` for the other skins and states
 - [ ] Crop + 2× the header, a row, the corners; sample pixels for R5/R11; measure x-edges for R7
 - [ ] Score R1–R17; fix every blocker/major; capture again
 - [ ] Capture the empty/loading state once (R10)

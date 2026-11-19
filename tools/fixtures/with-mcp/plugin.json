@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "toast-backend-fixture",
+  "version": "0.0.1",
+  "description": "Converter fixture: one skill plus a stdio, a streamable-http and an sse MCP server.",
+  "author": { "name": "Postlabs" },
+  "extensions": {
+    "com.openai": { "interface": { "displayName": "Toast backend (fixture)", "category": "Productivity" } },
+    "com.google.gemini-cli": { "contextFileName": "GEMINI.md" }
+  }
+}

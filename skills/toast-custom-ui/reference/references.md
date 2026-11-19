@@ -1,8 +1,8 @@
 # Outside libraries and references for widgets, pages and mini-apps
 
 **Bottom line.** Every library below was loaded inside a real sealed frame on this PC
-(18 of 18 pins load, light and dark: `shots/libprobe-light.png`, `shots/libprobe-dark.png`).
-The probe family is in `libprobe/` so you can copy it. No session had ever used `js_deps` before
+(18 of 18 pins load, light and dark).
+The pin lines in §2 are the probe family's own `js_deps` and `styles`, so you can copy them. No session had ever used `js_deps` before
 this one: the install-wide store `{user_data}/.state/jar-deps` did not exist until the probe ran.
 Sessions have been hand-drawing SVG icons and system-ui text when a pinned icon set
 and font were available.
@@ -43,7 +43,7 @@ Cause: `foundation/atoms/sealed/atom.tsx:60` reads the conversation id from the 
 and it returns 404 (`/v1/sealed-consent` → 200 with `chat=<id>`, 404 without; checked with curl).
 So the "blank / not installed until finalize" seen on Dev Tree is a capture bug, not a family bug.
 **Workaround that works today:** load the frame headless and screenshot it with
-`libprobe/probe_frame.mjs <frame url> <png> <json> [dark]`. Frame URL:
+`scripts/probe_frame.mjs <frame url> <png> <json> [dark]`. Frame URL:
 `http://atoms.localhost:<API_PORT>/api/v1/sealed/frame?jar=<handle.set>&family=<f>&atom=<a>&chat=<PEEL_CHAT_SESSION>`.
 Change the data it posts to your own.
 
@@ -51,7 +51,7 @@ Change the data it posts to your own.
 
 ## 2. Vetted libraries with pin lines
 
-All loaded in the probe frame (`libprobe/family.yaml`), checked against npm `latest` on 2026-11-19.
+All loaded in the probe frame, checked against npm `latest` on 2026-11-19.
 Load times are for a warm load. Paste a line under `js_deps:` or `styles:` as shown.
 
 ### Look: colour, type, base CSS
@@ -222,6 +222,6 @@ the window. Light and dark both checked.
    native" (§4) and say which refs you followed.
 6. **Lock the tokens before writing code:** inherited font, one accent (brand), host radius, 4 px spacing,
    13/12 px only, and dark mode. Then write the pins from §2.
-7. **Build, then see it.** Screenshot light and dark with `libprobe/probe_frame.mjs` for frames, or
-   PrintWindow for desk windows. Compare against the mood board lines and the §4 surface
+7. **Build, then see it.** Screenshot light and dark with `scripts/probe_frame.mjs` for frames, `scripts/piece-probe.mjs` for
+   pieces, and `scripts/see-it.mjs desk` for the live desk window. Compare against the mood board lines and the §4 surface
    checklist before showing the user (the see-it loop).

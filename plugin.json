@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "toast-skills",
+  "version": "0.2.0",
+  "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
+  "author": { "name": "Postlabs", "email": "contact@postlabs.dev" },
+  "homepage": "https://github.com/postlabs/toast-skills",
+  "repository": "https://github.com/postlabs/toast-skills",
+  "keywords": ["toast", "ui", "widget", "design", "desktop"],
+  "extensions": {
+    "dev.toast": { "marketplaceName": "toast-skills" },
+    "com.anthropic.claude-code": {
+      "owner": { "name": "Postlabs", "email": "contact@postlabs.dev" },
+      "marketplace": { "category": "design" }
+    },
+    "com.openai": {
+      "interface": {
+        "displayName": "Toast Skills",
+        "shortDescription": "Build Toast widgets, pages and mini apps right the first time.",
+        "longDescription": "toast-custom-ui: echo the ask, ask or default, reuse a spread recipe, pick a reference, build the window frame first, capture the real surface and score it against a checklist before saying done.",
+        "developerName": "Postlabs",
+        "category": "Productivity",
+        "capabilities": [],
+        "defaultPrompt": ["Make me a small desk widget in Toast."]
+      }
+    }
+  }
+}

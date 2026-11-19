@@ -7,7 +7,15 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const [url, outPng, outJson, dark] = process.argv.slice(2);
-const EDGE = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
+import { existsSync } from 'node:fs';
+const EDGE = [
+  process.env.PROBE_BROWSER,
+  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
+  'C:/Program Files/Google/Chrome/Application/chrome.exe',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/usr/bin/microsoft-edge', '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser',
+].filter(Boolean).find(existsSync);
+if (!EDGE) { console.error('No Edge or Chrome found; set PROBE_BROWSER to one.'); process.exit(2); }
 const port = 9300 + Math.floor(Math.random() * 400);
 const prof = mkdtempSync(join(tmpdir(), 'probe-edge-'));
 const proc = spawn(EDGE, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${prof}`,

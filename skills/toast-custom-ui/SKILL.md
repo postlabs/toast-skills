@@ -111,7 +111,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   app code. It shows "창 보기" (open window) as a placeholder until the user approves that code, so you cannot see it live until they do.
   If the atom needs no app access (no `navigate` or `refresh` action), draw it through the `sealed` spread
   `postlab.sp-8a0c3270532b4db68ece64c763b209c7` in a `kind: spread` block instead. That is a frame, and with `hosts: []`
-  it runs without approval (`api/sealed.py _is_approved`). This is not yet proven on a desk card, so capture it.
+  it runs without approval (the backend approves a family with no `hosts` by itself). This is not yet proven on a desk card, so capture it.
   If it must be a piece, say in the first line of the result that their approval is needed, and score the
   headless `scripts/piece-probe.mjs` shots in the meantime.
 - **Tokens.** Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
@@ -131,15 +131,18 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
 
 ## 6. Look at the real surface, in every state
 
-Capture what the user will see. A shot of a different surface does not count.
+Capture what the user will see. A shot of a different surface does not count. Every capture below goes
+through the Toast backend (peel tools or its local HTTP API at `PEEL_BASE_URL`, default
+`http://127.0.0.1:18587/api/v1`): no Toast source checkout, no OS screenshot, nothing changed.
 
 | Surface | Capture |
 |---|---|
-| Desk window (card, pinned, wallpaper) or the app window | `scripts/see-it.ps1 -DipBounds "<x,y,w,h>"` uses PrintWindow and works even when the window is covered. Take the bounds from `interface(op=read).desktop.open[]` **after** apply, not from your patch: a content-sized card changes its height. A size miss falls back to the corner, and a miss lists the Toast windows. Every Toast window is titled "Toast", so match by bounds or `-Hwnd`. |
-| App-window piece, any skin or state | `node scripts/piece-probe.mjs cases.json` draws it headless with the app's own tokens and font. Skins: `classic` (light), `nocturne` (dark), `office`, `pastel`, `sage`, `sunset`, `rpg`, `rpg-paper`. There is no `default`. |
-| App page | `interface(op=preview)`. Its `page=` is ignored, so check `snapshot_state.page` before scoring. If it shows another page, open yours in a window and use `scripts/see-it.ps1`. |
+| Desk window (card, pinned, wallpaper) | `interface(op=apply)` already returns `desk_pictures` / `desk_snapshots` for every window it touched. To look again without a change: `node scripts/see-it.mjs desk [window ids]`. It shows each window's own page as it draws now, even when covered; the ids are `config.windows[].id`. A wallpaper is pictured from a copy of its page. |
+| App window | `interface(op=preview)` or `node scripts/see-it.mjs app`. It shows whatever page the window shows now (`page=` is ignored), so check `snapshot_state.page` / `page` before scoring. To see your page, put it in a desk window and use `see-it.mjs desk`. |
+| App-window piece, any skin or state | `node scripts/piece-probe.mjs cases.json` draws it headless (Edge or Chrome), with the skins' tokens (`reference/skin-tokens.css`) and Pretendard served by the backend. Skins: `classic` (light), `nocturne` (dark), `office`, `pastel`, `sage`, `sunset`, `rpg`, `rpg-paper`; there is no `default`. If its report says `font: fallback`, the backend did not answer: do not score R3 from it. |
 | Canvas pane (spread) | `render(..., picture: true)` |
-| Sealed atom draft | The canvas picture wrongly says "not installed" (the capture has no chat id). Load the frame headless with `scripts/probe_frame.mjs <frame url> <png> <json> [dark]` and post your own data. |
+| Sealed atom draft | The canvas picture wrongly says "not installed" (the capture has no chat id). Load the frame headless with `scripts/probe_frame.mjs <frame url> <png> <json> [dark]` and post your own data. The frame URL is the backend's `http://atoms.localhost:<port>/api/v1/sealed/frame?jar=…&family=…&atom=…&chat=…`. |
+| No desktop app (a backend on its own) | Nothing is on a screen, so `see-it.mjs` answers `unavailable`. Score the `piece-probe.mjs` and `render` pictures, and say in the result that the live window is not seen. |
 
 Capture these states: default, hover or selected, 1 / 3 / 8+ items, the longest real name, empty, loading and error,
 light and dark, Korean and English if both ship. Crop and enlarge the header, a row and the corners 2×. Never score a
