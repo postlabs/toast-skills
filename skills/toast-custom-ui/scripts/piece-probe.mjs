@@ -1,6 +1,6 @@
-// piece-probe: draw an app-window piece (a sealed atom mounted in a shadow root) headless, in
-// any skin and any state, and save a PNG per case. Nothing in the user's Toast changes.
-// Use it for what the live window cannot show you: light skins, empty / loading / error,
+// piece-probe: draw an app-window piece (a sealed atom mounted in a shadow root) headless, under
+// any look and in any state, and save a PNG per case. Nothing in the user's Toast changes.
+// Use it for what the live window cannot show you: other looks, empty / loading / error,
 // long names, a filter with no matches.
 //
 // Needs only: Node 18+, Edge or Chrome, and the Toast backend for the app font.
@@ -9,17 +9,19 @@
 // cases.json:
 // { "atom": "<path to atom.js>", "export": "devtreelist",
 //   "outDir": "shots/probe", "title": "Dev Tree",
-//   "tokens": optional CSS file with [data-skin=...] blocks (default: ../reference/skin-tokens.css),
-//   "cases": [ { "name": "dark-default", "skin": "nocturne", "data": "fixtures/devtree.json",
+//   "values": optional CSS file of the shipped looks' values (default: ../reference/look-values.css),
+//   "cases": [ { "name": "dark-default", "look": "nocturne", "data": "fixtures/devtree.json",
 //                "frame": "card" | "page", "width": 560, "height": 880,
 //                "type": "zzz" (typed into the first input), "click": "Collapse" (button text),
-//                "theme": { "--text-neutral": "#000" } (ctx.theme.tokens),
-//                "look": "my-theme.json" | { "--bg-brand": "#2f5d50" } } ] }
-// look: a level-A theme package (its tokens) or a token map, laid on :root over the case's skin,
-// and handed to ctx.theme.tokens too. It previews a theme before anyone wears it. It is an
-// approximation: tokens the package leaves out keep the skin's values, as the app fills them
-// from the worn set; seeds are not rebuilt here, so a seeds-only theme shows nothing.
-// Skins: nocturne (dark, stock), classic (light), office, pastel, sage, sunset, rpg, rpg-paper.
+//                "tokens": { "--text-neutral": "#000" } (ctx.theme.tokens only) } ] }
+//
+// look: a shipped look's name, or your own look as a package file ("my-look.json") or a value map
+//   ({ "--bg-brand": "#2f5d50" }). Your own look fills only the values it sets; the rest come from
+//   the look underneath ("under", default nocturne), as in the app. Its values are laid on :root and
+//   handed to ctx.theme.tokens too, so you see it before anyone wears it. Seeds are not rebuilt
+//   here, so a look that changes a hue through seeds alone shows no change: say "not seen".
+// Shipped looks (8): nocturne (dark, stock), classic (light), office, pastel, sage, sunset, rpg, rpg-paper.
+// Older cases.json files still work: "skin" reads as "look"/"under", "theme" as "tokens", "tokens" (top) as "values".
 //
 // The font comes from the backend's own package cache (the same file sealed frames load),
 // at http://atoms.localhost:<port>/api/v1/sealed/d/@fontsource/pretendard@5.3.0/<weight>.css.
@@ -43,7 +45,15 @@ const spec = JSON.parse(readFileSync(specPath, 'utf8'));
 const rel = (p) => resolve(base, p);
 const outDir = rel(spec.outDir || 'shots/probe');
 mkdirSync(outDir, { recursive: true });
-const tokensFile = spec.tokens ? rel(spec.tokens) : join(here, '..', 'reference', 'skin-tokens.css');
+const valuesSrc = spec.values || spec.tokens;
+const tokensFile = valuesSrc ? rel(valuesSrc) : join(here, '..', 'reference', 'look-values.css');
+const SHIPPED = ['nocturne', 'classic', 'office', 'pastel', 'sage', 'sunset', 'rpg', 'rpg-paper'];
+// A case's look: a shipped name, or own values over the look underneath.
+function lookOf(c) {
+  const l = c.look;
+  if (typeof l === 'string' && SHIPPED.includes(l)) return { shipped: l, own: null };
+  return { shipped: c.under || c.skin || 'nocturne', own: l || null };
+}
 
 const apiBase = new URL(process.env.PEEL_BASE_URL || 'http://127.0.0.1:18587/api/v1');
 const atoms = `http://atoms.localhost:${apiBase.port || 80}/api/v1/sealed/d/@fontsource/pretendard@5.3.0`;
@@ -68,8 +78,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const TYPES = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.html': 'text/html' };
 
 function lookTokens(c) {
-  if (!c.look) return {};
-  const v = typeof c.look === 'string' ? JSON.parse(readFileSync(rel(c.look), 'utf8')) : c.look;
+  const own = lookOf(c).own;
+  if (!own) return {};
+  const v = typeof own === 'string' ? JSON.parse(readFileSync(rel(own), 'utf8')) : own;
   const t = v.tokens || v;
   return Object.fromEntries(Object.entries(t).filter(([k]) => k.startsWith('--')));
 }
@@ -81,7 +92,7 @@ function page(c) {
   const W = c.width || 560, H = c.height || 880;
   const card = (c.frame || 'card') === 'card';
   const fonts = fontOk ? [400, 500, 600].map((w) => `<link rel="stylesheet" href="${atoms}/${w}.css">`).join('') : '';
-  return `<!doctype html><html data-skin="${c.skin || 'nocturne'}"><head><meta charset="utf-8">
+  return `<!doctype html><html data-skin="${lookOf(c).shipped}"><head><meta charset="utf-8">
 <link rel="stylesheet" href="/tokens.css">${lookCss}${fonts}
 <style>
 html,body{margin:0;background:${card ? '#6b7280' : 'var(--bg-neutral-base)'};font-family:Pretendard,system-ui,sans-serif;color:var(--text-neutral)}
@@ -99,7 +110,7 @@ const data = await (await fetch('/data.json')).json();
 const host = document.getElementById('host');
 const root = host.attachShadow({ mode: 'open' });
 const a = mod.atoms[${JSON.stringify(spec.export)}];
-const ctx = { theme: { tokens: ${JSON.stringify({ ...look, ...(c.theme || {}) })}, reducedMotion: true } };
+const ctx = { theme: { tokens: ${JSON.stringify({ ...look, ...(c.tokens || c.theme || {}) })}, reducedMotion: true } };
 await a.render(root, data, ctx);
 await document.fonts.ready;
 window.__root = root; window.__ready = true;

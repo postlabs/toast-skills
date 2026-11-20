@@ -28,7 +28,7 @@ Sources: `backend/app/spreads/sealed.py`, `backend/app/artifacts/api/sealed.py`,
 | `styles:` takes `name@x.y.z/file.css` list | It is loaded as `<link>` before the module. Use it for Radix colours, fonts and library CSS. |
 | First use fetches the tarball (echarts is 12 MB) | The first draw on a new machine waits seconds. ESM lucide (about 2,100 files) took 6–9 s **on every cold load**, so use the UMD build. |
 | `ctx.theme.reducedMotion` defaults to **true** in the frame bootstrap | Motion must check it. Animate only when it is false. |
-| `ctx.theme.tokens` carries the app's `--bg-* / --text-* / --border-*` (neutral, brand, success, warning, danger, info) | Copy them onto `el` (`el.style.setProperty(k, v)`) so the atom follows the user's theme and skin. Use Radix scales only as the fallback: `var(--bg-neutral-base, var(--slate-1))`. |
+| `ctx.theme.tokens` carries the app's `--bg-* / --text-* / --border-*` (neutral, brand, success, warning, danger, info) | Copy them onto `el` (`el.style.setProperty(k, v)`) so the atom follows the user's look. Use Radix scales only as the fallback: `var(--bg-neutral-base, var(--slate-1))`. |
 | **App-window piece** (shadow root, trusted, `kind: piece`) | `hosts` does not apply there. `@font-face` inside a shadow stylesheet is unreliable in Chromium, so inherit the app font (Pretendard is already loaded) and don't pin one. Libraries that write to `document.head` (Tailwind browser, some tooltip libs) restyle the whole app: **frame only**. |
 
 UMD trick (verified): `import 'motion-umd'` runs the UMD wrapper with `this === undefined`,
@@ -208,7 +208,7 @@ the window. Light and dark both checked.
 
 1. **Name the surface and host** in one line: widget, page, dashboard or popout. Frame (canvas
    or sealed spread) or piece (app window). Which `kind` of window.
-2. **Look at what the user already has:** their theme and skin (`interface op=read_theme`) and
+2. **Look at what the user already has:** their worn look (`interface op=read`, `op=skin_values`) and
    pages that already exist. A new piece must look like it belongs next to them.
 3. **Check the spreads library first** (`find(op=spreads)` by form). Build a sealed atom only for the part no spread covers.
 4. **Make a mood board of 2–3 refs** from §3. Add one more only if the user named a vibe. For each, write
@@ -216,8 +216,8 @@ the window. Light and dark both checked.
    low-chroma neutrals; Apple widget: one job". Then check each against TASTE.md: a reference never overrides it. Put the three lines in your plan or result so
    a reviewer can check the build against them.
 5. **Ask, or decide.** Ask with AskUserQuestion when the piece is personal or decorative
-   (widget look, wallpaper, theme), when the user named a vibe that two refs read differently,
-   or when there is no theme signal at all. Give 2–3 options, each a ref plus a `preview`
+   (widget look, wallpaper, the app's look), when the user named a vibe that two refs read differently,
+   or when there is no look signal at all. Give 2–3 options, each a ref plus a `preview`
    mockup (ASCII or a short spec), recommended first. Otherwise decide: use "Toast
    native" (§4) and say which refs you followed.
 6. **Lock the tokens before writing code:** inherited font, one accent (brand), host radius, 4 px spacing,

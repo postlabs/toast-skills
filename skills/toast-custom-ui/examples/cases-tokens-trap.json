@@ -1,12 +1,11 @@
 {
-  "atom": "../../../devtree-qa/devtreelist2/atom.js",
-  "export": "devtreelist2",
+  "atom": "<your widget>/atom.js",
+  "export": "<atom name>",
   "title": "Dev Tree",
-  "tokens": "../../../plugin-repo-draft/skills/toast-custom-ui/reference/skin-tokens.css",
-  "outDir": "../../../shots",
+  "outDir": "shots",
   "cases": [
-    { "name": "look-trap-tokens-only-light", "skin": "classic", "look": "user-ink-tokens-only.json", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 },
-    { "name": "look-trap-tokens-only-dark", "skin": "nocturne", "look": "user-ink-tokens-only.json", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 },
-    { "name": "look-stock-light", "skin": "classic", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 }
+    { "name": "look-trap-tokens-only-light", "look": "user-ink-tokens-only.json", "under": "classic", "data": "<fixture>.json", "frame": "card", "width": 560, "height": 600 },
+    { "name": "look-trap-tokens-only-dark", "look": "user-ink-tokens-only.json", "under": "nocturne", "data": "<fixture>.json", "frame": "card", "width": 560, "height": 600 },
+    { "name": "look-stock-light", "look": "classic", "data": "<fixture>.json", "frame": "card", "width": 560, "height": 600 }
   ]
 }

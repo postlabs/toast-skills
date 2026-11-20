@@ -37,7 +37,7 @@ The skill needs only a running Toast backend: no source checkout, no app window 
 plugin.json              the one source; edit this
 skills/toast-custom-ui/
   SKILL.md               the procedure
-  reference/             taste rules, spread recipes, outside references, the see-it loop, skin tokens
+  reference/             taste rules, spread recipes, outside references, the see-it loop, look recipes, the shipped looks' values
   scripts/               see-it.mjs (capture through the backend), shot-check.py, ui-lint.py, probes
 tools/build-plugins.mjs  writes .claude-plugin/, .codex-plugin/, gemini-extension.json; --check for CI
 ```
