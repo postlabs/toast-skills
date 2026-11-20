@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "toast-skills",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
   "author": { "name": "Postlabs", "email": "contact@postlabs.dev" },
   "homepage": "https://github.com/postlabs/toast-skills",
