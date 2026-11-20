@@ -17,8 +17,9 @@ leaves a line in your plan or result, so a reviewer can see it was done.
 
 1. **Frame first.** A real window bar: icon, title, pin, close. A desk card's host bar draws these; the icon is the
    page's menu `icon` (dev-hj 63084d9611 and later; older builds show none). Under it, one toolbar, then the content. Get the header right before polishing anything.
-2. **Words over glyphs.** Write "Expand", "Collapse", "More" as text. Icons only for search, close,
-   pin, folder and file. No chevron rows, grips or kebabs.
+2. **No chevrons.** No chevrons, carets or arrow glyphs anywhere. That is the whole rule: icons are fine and
+   often better than words, so use clear icons from the app's set where they read at a glance, and a word only
+   where no icon would. No grip strips or kebab dots; put those actions in the right-click menu.
 3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.
    Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece; in a frame, which cannot inherit, `font-family: var(--type-family-sans, Pretendard, system-ui, sans-serif)` with Pretendard loaded (§5). The one exception
    is one display figure when it is the widget's whole job (a clock, one count, a metric spread's headline):
