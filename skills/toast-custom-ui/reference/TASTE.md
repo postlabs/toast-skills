@@ -14,7 +14,7 @@ What people keep finding wrong in agent-built UI:
 2. **Words over glyphs.** Write "Expand" and "Collapse", not chevron icons. Only universally
    read icons stay: search, close, pin, folder, file.
 3. **Two type sizes.** 13 px for body text and 12 px for meta. Weight 400, 500 for names, and
-   600 only for the window title. Use the app's own font, Pretendard, by inheriting it: a
+   600 only for the window title. Use the worn look's font (Pretendard by default) by inheriting it: a
    piece's shadow root inherits the app's font and its token CSS variables
    (`--text-neutral`, `--bg-neutral-base`, `--text-brand`, ...), so use `font: inherit` and
    `var(--token, fallback)`.

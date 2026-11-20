@@ -20,7 +20,7 @@ leaves a line in your plan or result, so a reviewer can see it was done.
 2. **Words over glyphs.** Write "Expand", "Collapse", "More" as text. Icons only for search, close,
    pin, folder and file. No chevron rows, grips or kebabs.
 3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.
-   Use the app font: `font: inherit` in a piece, and Pretendard pinned in a frame (§5). The one exception
+   Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece, and Pretendard pinned in a frame (§5). The one exception
    is one display figure when it is the widget's whole job (a clock, one count, a metric spread's headline):
    one number, weight 400, at most 40 px. Every other line stays 13/12.
 4. **Less text.** Use 877k and 1.5M; exact values go in `title=`. State a unit once, not on every row.
@@ -122,7 +122,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   it runs without approval (the backend approves a family with no `hosts` by itself). This is not yet proven on a desk card, so capture it.
   If it must be a piece, say in the first line of the result that their approval is needed, and score
   `interface(op=preview, piece=…)` shots in the meantime.
-- **Tokens.** Read the worn values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. Start with the core set and stay in it: colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
+- **Tokens.** Read the worn values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. Start with the core set and stay in it. Secondary and meta text is `--text-neutral-muted`; `--text-neutral-soft` fails contrast on every light skin, so use it only for a placeholder, never for body or meta text, and never put muted text on a tinted fill. Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
   `var(--border-neutral, …)`. Hex appears only as a `var()` fallback, and the fallbacks must work on light *and* dark.
   In a sealed frame, copy `ctx.theme.tokens` onto `el` (`el.style.setProperty(k, v)`).
 - **Sealed atom rules** (from source; full list in `reference/references.md` §1):
