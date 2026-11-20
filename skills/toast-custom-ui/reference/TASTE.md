@@ -28,6 +28,11 @@ What people keep finding wrong in agent-built UI:
    Colour goes on one thing: the brand on the branch, warning only when something is dirty.
 6. **One surface.** Never draw a card inside a card. A widget's window is the card.
 7. **Keep what works.** Logic the user approved stays: right-click, the cache, refresh on open.
+8. **Ask for the look, and study good ones first.** Before designing, ask the person once for
+   images or references of the look they want: screenshots, an app or site they like, a sketch.
+   Use what they give as the target. Then study the shipped spreads as examples of good design
+   (`find(op=spreads)` by form, read the closest ones and their render trees) and build to that
+   level; a result that looks worse than the shipped spread for the same form is not done.
 
 ## Worked example
 Dev Tree v2: `dev-menu-interface/project_tree/devtreelist/atom.js`. Shots are in the lead's
