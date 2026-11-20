@@ -53,6 +53,11 @@ The questions worth asking:
    spread, or the site or picture they name, with a `preview` mockup drawn from real components.
 4. The data and freshness, only when the source is not obvious.
 
+**Each option's `preview` is a picture.** Capture it first (§6, `piece=` or a probe shot), save the PNG in
+the chat's own tray folder, and put that path, or a `data:` image, as the option's `preview`. Toast draws it
+in a 240×150 frame above the label. It draws nothing else: text, markdown or a path outside the tray is
+ignored. A picture-less option says only what it is.
+
 **Don't ask** when the request already answers it, when it is a revision of something they saw, or when
 the user is away. Take the defaults instead and say them in the result:
 - the app look and stock tokens;
