@@ -31,6 +31,12 @@ leaves a line in your plan or result, so a reviewer can see it was done.
    decision. Colour goes on one thing (the brand), with warning colour only where something is wrong.
 6. **One surface.** Never a card inside a card. A widget's window *is* the card.
 7. **Keep what works.** Behaviour the user approved stays: right-click, cache, refresh on open.
+8. **Ask for the look.** Ask the person once for images or references of the look they want. Those are the
+   target; the shipped spreads are the floor: study the closest ones, never land below them.
+9. **Place with a reason.** Before placing anything, write what the person comes to do (ranked), what leads,
+   what sits together and each block's size, and show it with the picture. The one thing to act on leads.
+10. **Keep good designs; never regress.** Reuse a design the person likes instead of redrawing it. Replace
+   only with something clearly better, checked side by side before showing.
 
 ## 1. Echo the ask as checkpoints
 

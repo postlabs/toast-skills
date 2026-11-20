@@ -34,6 +34,14 @@ What people keep finding wrong in agent-built UI:
    the baseline, not the ceiling: study the closest ones (`find(op=spreads)` by form, their
    render trees) so the result is never below them, then go past them toward the person's
    references.
+9. **Place with a reason.** Before placing anything, write the page's reasoning in a few lines and
+   show it with the picture: what the person comes here to do, ranked; what leads and why; what
+   sits together because one explains the other; each block's size, set by how much it holds and
+   how much it matters. The one thing they must act on leads, alone, with the page's only accent.
+   Equal boxes in the order the data arrived are a page nobody decided.
+10. **Keep good designs; never regress.** A design the person likes is reused, not redrawn. Replace
+   something only with something clearly better: put the old and the new side by side before
+   showing, and if the new one is not better, the old one stays.
 
 ## Worked example
 Dev Tree v2: `dev-menu-interface/project_tree/devtreelist/atom.js`. Shots are in the lead's
