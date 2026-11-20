@@ -10,7 +10,7 @@
       "name": "toast-skills",
       "source": "./",
       "description": "Skills for building with Toast: desk widgets, pages, mini apps and custom looks (values, images, motion, code) that come out right the first time.",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "author": {
         "name": "Postlabs",
         "email": "contact@postlabs.dev"
