@@ -1,6 +1,6 @@
 {
   "name": "toast-skills",
-  "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
+  "description": "Skills for building with Toast: desk widgets, pages, mini apps and custom looks (themes, skins, motion) that come out right the first time.",
   "owner": {
     "name": "Postlabs",
     "email": "contact@postlabs.dev"
@@ -9,8 +9,8 @@
     {
       "name": "toast-skills",
       "source": "./",
-      "description": "Skills for building with Toast: desk widgets, pages and mini apps that come out right the first time.",
-      "version": "0.2.3",
+      "description": "Skills for building with Toast: desk widgets, pages, mini apps and custom looks (themes, skins, motion) that come out right the first time.",
+      "version": "0.3.0",
       "author": {
         "name": "Postlabs",
         "email": "contact@postlabs.dev"

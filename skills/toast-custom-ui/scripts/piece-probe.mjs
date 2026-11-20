@@ -13,7 +13,12 @@
 //   "cases": [ { "name": "dark-default", "skin": "nocturne", "data": "fixtures/devtree.json",
 //                "frame": "card" | "page", "width": 560, "height": 880,
 //                "type": "zzz" (typed into the first input), "click": "Collapse" (button text),
-//                "theme": { "--text-neutral": "#000" } (ctx.theme.tokens) } ] }
+//                "theme": { "--text-neutral": "#000" } (ctx.theme.tokens),
+//                "look": "my-theme.json" | { "--bg-brand": "#2f5d50" } } ] }
+// look: a level-A theme package (its tokens) or a token map, laid on :root over the case's skin,
+// and handed to ctx.theme.tokens too. It previews a theme before anyone wears it. It is an
+// approximation: tokens the package leaves out keep the skin's values, as the app fills them
+// from the worn set; seeds are not rebuilt here, so a seeds-only theme shows nothing.
 // Skins: nocturne (dark, stock), classic (light), office, pastel, sage, sunset, rpg, rpg-paper.
 //
 // The font comes from the backend's own package cache (the same file sealed frames load),
@@ -62,12 +67,22 @@ if (!BROWSER) { console.error('No Edge or Chrome found; set PROBE_BROWSER to one
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const TYPES = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.html': 'text/html' };
 
+function lookTokens(c) {
+  if (!c.look) return {};
+  const v = typeof c.look === 'string' ? JSON.parse(readFileSync(rel(c.look), 'utf8')) : c.look;
+  const t = v.tokens || v;
+  return Object.fromEntries(Object.entries(t).filter(([k]) => k.startsWith('--')));
+}
+
 function page(c) {
+  const look = lookTokens(c);
+  const lookCss = Object.keys(look).length
+    ? `<style>:root{${Object.entries(look).map(([k, v]) => `${k}:${v}`).join(';')}}</style>` : '';
   const W = c.width || 560, H = c.height || 880;
   const card = (c.frame || 'card') === 'card';
   const fonts = fontOk ? [400, 500, 600].map((w) => `<link rel="stylesheet" href="${atoms}/${w}.css">`).join('') : '';
   return `<!doctype html><html data-skin="${c.skin || 'nocturne'}"><head><meta charset="utf-8">
-<link rel="stylesheet" href="/tokens.css">${fonts}
+<link rel="stylesheet" href="/tokens.css">${lookCss}${fonts}
 <style>
 html,body{margin:0;background:${card ? '#6b7280' : 'var(--bg-neutral-base)'};font-family:Pretendard,system-ui,sans-serif;color:var(--text-neutral)}
 #frame{width:${W}px;height:${H}px;display:flex;flex-direction:column;overflow:hidden;background:var(--bg-neutral-base);
@@ -84,7 +99,7 @@ const data = await (await fetch('/data.json')).json();
 const host = document.getElementById('host');
 const root = host.attachShadow({ mode: 'open' });
 const a = mod.atoms[${JSON.stringify(spec.export)}];
-const ctx = { theme: { tokens: ${JSON.stringify(c.theme || {})}, reducedMotion: true } };
+const ctx = { theme: { tokens: ${JSON.stringify({ ...look, ...(c.theme || {}) })}, reducedMotion: true } };
 await a.render(root, data, ctx);
 await document.fonts.ready;
 window.__root = root; window.__ready = true;

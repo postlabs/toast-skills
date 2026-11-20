@@ -1,6 +1,6 @@
 ---
 name: toast-custom-ui
-description: Build or change something the person will look at in Toast, such as a desk widget, a page, a dashboard, a pop-out, a mini app, a sealed atom or a window, so it is right the first time. Use whenever the ask is to make, design, restyle or fix a UI surface on the user layer (interface pages, windows, pieces, spreads, sealed atoms). The method is to echo the ask, ask or default, reuse, pick a reference, build the frame first, look at the real surface, and score it before saying done.
+description: Build or change something the person will look at in Toast, such as a desk widget, a page, a dashboard, a pop-out, a mini app, a sealed atom or a window, or changes the app's look (a theme, colours, corners, fonts, pictures, animation or a code skin), so it is right the first time. Use whenever the ask is to make, design, restyle or fix a UI surface on the user layer (interface pages, windows, pieces, spreads, sealed atoms). The method is to echo the ask, ask or default, reuse, pick a reference, build the frame first, look at the real surface, and score it before saying done.
 ---
 
 # Custom UI in Toast: right the first time
@@ -178,3 +178,96 @@ The result names:
 - any rubric line left "not seen", and why.
 
 Keep it short: the picture carries it.
+
+## 9. Looks: themes, pictures, skins and motion
+
+A look changes **how the whole app reads**, not one surface. The same steps apply (echo, ask, reuse,
+reference, build, look, score), with three differences: the level comes first, the user always
+approves before it is worn, and everything you built before must still read under it.
+
+### 9.1 Name the level first (the smallest that says the ask)
+
+| Level | Says | Ask → level |
+|---|---|---|
+| **Bundled** | Wear a look that ships: `{"skin": id}` for colours only, `{"theme": x, "skin": x}` for rpg/office pieces and art | "make it dark" → `nocturne` · "something warmer" → `sunset` or `pastel` · "game-like" → `rpg` · "like Office" → `office` |
+| **A values** | A `version: 2` data-only theme: colour, corners, spacing, type, motion | "my brand green" · "rounder corners" · "calmer, less motion" · "use this font" |
+| **B images** | Image slots and border frames over stock surfaces | "my photo in the header" · "frame the boards with that art" |
+| **E code** | A skin package: trusted TSX replacing registered components | "redraw the sidebar as a ship's log" · "an animated scene" · anything no token or slot can say |
+
+Rules:
+- Try **bundled** before A, and A before E. A request for colour is never a code skin.
+- **Motion is level A.** `motion` holds six named targets: `hover`, `dockOpen`, `dockClose`,
+  `scrollUnfold`, `questDraw` and `sparkle`. A moving scene beyond those is level E (rpg's `questScene`).
+- A look for **one page** goes on that page's own `theme`/`skin` fields, not the app's.
+- Your own widgets follow a look **only through tokens**. A hex outside a `var()` fallback is a bug that
+  shows the first time the user changes skin (`ui-lint.py` R4).
+
+### 9.2 Ask (always) — one card
+
+Every look change asks first, even a follow-up in the same chat. One AskUserQuestion card holds:
+- the **level** and, for E, that it is **code** needing their approval in a Toast dialog;
+- **what changes**, in their words, and **what stays** (layout, pages, widgets, data);
+- **how it is undone**: the earlier skin or theme is selected again (today `skin: null`). Use `undo` or
+  `restore` only when read's `undoScope` says the whole UI is retained (it says `arrangement_only` now);
+- 2–3 options, each a real look, with a `preview` drawn from `piece-probe` shots (§9.4). Recommend a bundled skin
+  when one is close.
+
+Never apply, install a theme that is worn, or install a skin before the answer. A coordinator's yes is not theirs.
+
+### 9.3 Build
+
+**Bundled.** Pick from `schema.skins`: `classic` (light, stock), `nocturne` (dark), `sunset`, `pastel`,
+`sage`, `rpg`, `rpg-paper` and `office`. Nothing to build.
+
+**A values**. Use `reference/look-recipes.md` §2 (examples in `examples/`) for exact shapes.
+- **Changing a hue: use `seeds.colour`, not tokens.** Seeds rebuild the whole family: fills, soft text,
+  borders, ramps and the `--brand-50…900` rungs. A few brand tokens leave the soft variants on the old hue:
+  icons and tints stay purple. `seeds.colour.chromatic` needs **all seven tones** (brand, danger, warning,
+  success, secondary, info, question); copy the base set's hues and change one.
+- **Tokens** are for single values beside the seeds: corners (`--radius-card`, `--radius-control`),
+  spacing rungs, `--type-family-sans`. Tokens next to seeds win.
+- A theme is one scheme. `seeds.from: classic` is light and `nocturne` is dark. A user who wants both
+  gets two themes, and the ask says so.
+- **Motion** (TASTE rule 5 for movement): animate state changes only. Hover takes 120–150 ms, open and unfold
+  160–200 ms, `ease-out` in and `ease-in` out. `sparkle` and `questDraw` are `"off"` unless asked. No
+  `bouncy` preset and nothing over 300 ms unless the user asks by name. Stock is slower (dock 340 ms,
+  unfold 650 ms, sparkle 2.6 s): leave stock alone unless the ask is about motion. The app already zeroes
+  every target under the OS's reduced-motion setting; your own atoms check `ctx.theme.reducedMotion`. **validate does not police durations or fonts**: you do.
+
+**B images.** Use embedded data URLs only (png, webp or jpeg; ≤ 4096 px edge, ≤ 6 MB). `base: "$worn"` keeps the worn look's
+pieces. Frames slice the slot image (`frames.board: {slice, width}`), or borrow rpg's art with an asset
+binding (`schema.skin_images`). Dark art needs light text: the frame check refuses unreadable text.
+
+**E code.** Follow `skin(op=guide)` and `skin(op=contract)`.
+- Fork `office` for 1–2 components and `rpg` for many. Delete every copied component you don't replace.
+- Only registered component names apply. One authored skin is active at a time, so put everything the user wants in one package.
+- An `appLayout` must call `docks(lanes)`, or the ask dock disappears.
+- `build` compiles; `install` waits for the user's code approval in Toast. Tell them to look for the dialog.
+
+### 9.4 Look before it is worn
+
+`interface(op=preview)` cannot show an unworn theme, and `validate` draws nothing. So:
+
+| What | How it is seen before wearing |
+|---|---|
+| Your widget under every bundled skin | `piece-probe.mjs` cases with `"skin": <id>` |
+| Your widget under an A theme's **tokens** | the same cases with `"look": "<theme>.json"`, which lays the package's tokens on `:root` over the skin |
+| An A theme's **values**, seeds included | `interface(op=skin_values, theme=<package>, core=true)` (or `file=`) builds what the package would give, without saving or wearing it: the core values and text-on-background contrast ratios. Older backends lack it; there, say "not seen" for the hue. |
+| An A theme's **seeds**, pictured | not seeable yet: the probe does not run the colour engine. Check the values above, and say the hue is not seen in a picture. |
+| Spreads under a look | `render(picture: true)` shows the **worn** look only |
+| B images, E skins | only after wearing: `apply`/`skin install` return a picture. That is why the ask comes first. |
+
+Validate with `interface(op=validate)` and the same arguments as the apply, `points` included. Read
+`issues` (legibility ratios and unpublished tokens are refused with the reason) and `revisionWarnings`.
+
+### 9.5 Score the look
+
+Run the §7 rubric on probe shots of **the user's own pages and widgets** under the new look, not only on
+a stock screen. Then check three lines just for looks:
+- **L1 reach.** Every accent moved, including icons, soft text and tints. If anything kept the old hue, the
+  look was set by tokens where seeds were needed.
+- **L2 legibility.** The text on brand fills and on images reads at ≥ 4.5:1 (validate states ratios).
+- **L3 motion.** Each animated target is listed with its duration, and none is idle or looping.
+
+Report it as in §8, plus the level, the theme or skin id, and what was "not seen" (always the seeds hue and
+any B/E surface until it is worn).

@@ -1,0 +1,12 @@
+{
+  "atom": "../../../devtree-qa/devtreelist2/atom.js",
+  "export": "devtreelist2",
+  "title": "Dev Tree",
+  "tokens": "../../../plugin-repo-draft/skills/toast-custom-ui/reference/skin-tokens.css",
+  "outDir": "../../../shots",
+  "cases": [
+    { "name": "look-trap-tokens-only-light", "skin": "classic", "look": "user-ink-tokens-only.json", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 },
+    { "name": "look-trap-tokens-only-dark", "skin": "nocturne", "look": "user-ink-tokens-only.json", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 },
+    { "name": "look-stock-light", "skin": "classic", "data": "../../../devtree-qa/fixtures/real.json", "frame": "card", "width": 560, "height": 600 }
+  ]
+}
