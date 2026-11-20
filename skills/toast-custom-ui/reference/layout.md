@@ -43,7 +43,7 @@ holds cards gets no card of its own.
 
 - Width comes from what must be compared side by side. Seven days, three plans, two columns of a
   form: that count sets the width. Text that is read, not compared, wants a reading width, not the
-  full page.
+  full page: lines under about 80 characters, 60–75 at best.
 - Height comes from the busiest real case. Then check the empty case and the longest name.
 - Siblings in a row share one height. Unequal siblings mean the content differs: either it should
   (then they are not siblings) or it should not (then even it out).
@@ -57,6 +57,10 @@ holds cards gets no card of its own.
 - The thing to act on is neither first nor marked.
 - Colour appears on more than the one thing that needs the person.
 - You cannot say in one sentence what a block is for.
+- The note would read the same for anyone's dashboard: nothing in it comes from this subject.
+- Nothing is memorable, or everything tries to be: no single place took the craft.
+- Structure that says nothing: a label over every heading, a chip on every row, numbers on
+  things that are not steps, a divider between things that belong together.
 
 Each is fixed by going back to the layout note, not by restyling.
 

@@ -87,9 +87,9 @@ line of code). Blocker or major → fix and re-capture.
 | R11 | **Contrast** | Body text ≥ 4.5:1, secondary ≥ 3:1 against its actual surface (sample both pixels). | soft grey on tinted bar |
 | R12 | **Light and dark** | Captured under both a light and a dark look; every surface follows. (Changing the user's look is a user-visible change: ask first, or verify by reading the code: R4 = 0 raw colours.) | dark fallbacks showing under a light look |
 | R13 | **Folds and icons** (T2) | Few folds: open by default, one level. Icons and controls sit in line with their text, on the baseline, at the text's size. A decoration that looks like state (selection, progress) is not used for something else. | size bars that read as selection highlights |
-| R14 | **Copy** | User's language; plurals right; numbers grouped; no internal ids or field names. | "1 files" |
+| R14 | **Copy** | User's language; plurals right; numbers grouped; no internal ids or field names. Things named the person's way; a button says what it does and keeps that name through the flow; empty and error states say what to do, without apologising. | "1 files"; "Submit"; "Oops, something went wrong" |
 | R16 | **Less text** (T4) | Short numbers (877k, 1.5M) with the exact value in the hover title; no unit repeated on every row. | "12,422 files · 876,886 lines" on every row |
-| R17 | **No drama** (T5) | No share bars, glows, extra chips or badges unless they carry the decision. Colour on one thing (brand on the branch; warning only when dirty). | share bars, coloured chips everywhere |
+| R17 | **No drama, no template chrome** (T5) | No share bars, glows, extra chips or badges unless they carry the decision. Colour on one thing (brand on the branch; warning only when dirty). No generated defaults nobody chose: the identical-card kit, ALL-CAPS labels over headings, dot-chained meta, `→` on buttons, numbered markers on a non-sequence, entrance animation per section. One place took the craft, and you can name it. | share bars, coloured chips everywhere; a tracked caps label over every section |
 | R15 | **Fits the place** | Content fits the window size asked (card 380×520 small) with no horizontal scroll; a long list scrolls inside, the header stays. | — |
 
 ### Calibration on Dev Tree
@@ -130,30 +130,10 @@ these three were in the user's list; the loop finds the next round of flaws befo
 
 ---
 
-## 3. Ask first — the questions worth asking before building
+## 3. Ask first
 
-Ask with one AskUserQuestion card, at most 4 questions, each with a recommended option first.
-
-1. **What is it for, in one sentence?** — "glance at it" (status widget), "work in it" (tool
-   page), "be told" (alert, no window). Decides the form: card, page, or feed rule only.
-2. **Where does it live?** — small desk card (380×520) / pinned over windows / wallpaper /
-   a page in the sidebar / the canvas. Decides window kind and size budget.
-3. **What should it look like?** — offer 2–3 concrete references as options: "like the app's
-   own panels (recommended)", a library spread by name ("Status verdict", "Pick and shortlist"),
-   or a picture/site they name. Never ask "what style do you like?" open-ended.
-4. **What data, and how fresh?** — which source (their folder, a site, a dough), and refresh:
-   on open / every N min / at a time. Only when the source is not obvious.
-5. *(only for actions)* **What may it do without asking?** — read-only vs. buttons that act.
-
-**Skip asking when:**
-- the request already answers it (named place, size, source, look);
-- it is a revision of something they have seen ("move the count left") — just do it, capture, show;
-- a default is safe and reversible: app look + stock tokens, desk card 380×520, `on_open` refresh;
-  say the default in the result instead of asking;
-- the user said they are away / not at the screen — choose the defaults, ship, and attach the capture.
-
-**Always ask when:** it replaces something they have (a page, the menu, their look), changes a
-look they chose, adds actions that reach outside the PC, or the purpose itself is unclear.
+When to ask, which questions, and the defaults when you don't: SKILL.md §2. The look question
+asks for the person's own picture or reference first.
 
 ---
 

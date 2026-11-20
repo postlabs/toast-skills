@@ -130,6 +130,16 @@ def lint(path: Path):
         m = re.search(r"\.[\w-]*bar\b[^{]*\{[^}]*position\s*:\s*absolute", text)
         add("T5", "major", m.start(), "absolutely placed bar behind rows — a share bar reads as selection (TASTE 5: no share bars); drop it")
 
+    # R17: template chrome that marks a page as generated
+    for m in re.finditer(r"text-transform\s*:\s*uppercase|textTransform\s*:\s*['\"]uppercase", text):
+        add("R17", "minor", m.start(), "uppercase labels — the ALL-CAPS eyebrow is a generated default; sentence case unless the label carries something")
+    for m in re.finditer(r"letter-spacing\s*:\s*0?\.\d+em|letter-spacing\s*:\s*[1-9]\d*(?:\.\d+)?px", text):
+        add("R17", "minor", m.start(), "tracked-out letter-spacing — part of the generated eyebrow look; drop it")
+    for m in re.finditer(r"['\"`>][^'\"`<\n]{1,40}\s(?:→|&rarr;|\\u2192)\s*['\"`<]", text):
+        add("R17", "minor", m.start(), "'→' appended to a label — say what the action does instead")
+    for m in re.finditer(r":hover[^{]*\{[^}]*transform\s*:\s*translateY", text):
+        add("R17", "minor", m.start(), "hover lift on cards — motion answers an action, not every hover")
+
     # T6 / R5: card inside a card — rules that draw a filled, rounded, bordered/shadowed box
     cards = []
     for m in CARD_RULE.finditer(text):

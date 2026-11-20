@@ -7,7 +7,8 @@ This page is the one-screen order, with the file that holds the detail for each 
 |---|---|---|---|
 | 0 | Read the taste rules | Frame first; fold sparingly, icons in line with text; 13/12 px in the app font; less text; no drama; one surface; keep what works | `TASTE.md` |
 | 1 | Echo the ask | Every point of the request is a numbered checkpoint | `failure-audit.md` fix 5 |
-| 2 | Ask, or state the default | One AskUserQuestion card (purpose, place, look as 2–3 references, data), or defaults written down | `see-it-loop.md` §3 |
+| 1b | Decide the design | Layout note written (purpose, lead, together, sizes, craft, cut); two ASCII sketches compared; every line checked against what any similar ask would get | SKILL.md "The layout note", `layout.md` |
+| 2 | Ask, or state the default | One AskUserQuestion card (purpose, place, look as 2–3 references, data), or defaults written down | SKILL.md §2 |
 | 3 | Reuse first | Spread found by intent (widget, dashboard, tracker, to-do, schedule). Code only for the rest, with the reason | `spread-recipes.md`, `spreads-audit.md` |
 | 4 | Choose a look | 3 lines: nearest app surface + 1–2 outside references, each with what to borrow | `references.md` §3–5 |
 | 5 | Build frame-first | Window bar, then toolbar, then content. Tokens with light and dark fallbacks. Sealed pins proven | `references.md` §1–2 |
