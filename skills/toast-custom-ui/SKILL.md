@@ -1,42 +1,118 @@
 ---
 name: toast-custom-ui
-description: Build or change something the person will look at in Toast, such as a desk widget, a page, a dashboard, a pop-out, a mini app, a sealed atom or a window, or changes the app's look (colours, type, corners, pictures, motion or redrawn parts, packaged as one look), so it is right the first time. Use whenever the ask is to make, design, restyle or fix a UI surface on the user layer (interface pages, windows, pieces, spreads, sealed atoms). The method is to echo the ask, ask or default, reuse, pick a reference, build the frame first, look at the real surface, and score it before saying done.
+description: Build or change something the person will look at in Toast, such as a desk widget, a page, a dashboard, a pop-out, a mini app, a sealed atom or a window, or changes the app's look (colours, type, corners, pictures, motion or redrawn parts, packaged as one look), so it is right the first time. Use whenever the ask is to make, design, restyle or fix a UI surface on the user layer (interface pages, windows, pieces, spreads, sealed atoms). The method is to decide the design first (purpose, what leads, what sits together, each block's size), ask for the person's reference, reuse, build the frame first, look at the real surface, and score it before saying done.
 ---
 
 # Custom UI in Toast: right the first time
 
-Most awkward UI comes from three habits (failure audit, 85 cases):
-- shipping without looking at the real surface (51 %);
-- guessing taste alone (42 %);
-- building new parts when the app already had them (25 %).
+A good surface is decided before it is drawn. Someone comes to it to do something; the design is
+the set of decisions that lets them do it at a glance: what they see first, what sits beside what,
+how big each thing is. Polish cannot rescue a page nobody decided, and a list of things to avoid
+does not produce one. So this skill starts with four principles and worked examples, then the
+steps, and ends with a short checklist to run once the design exists.
 
-This skill replaces those habits with steps. Do them in order and skip none. Each step
-leaves a line in your plan or result, so a reviewer can see it was done.
+## The four principles
 
-## 0. The user's taste: standing rules (they override every reference)
+**1. Purpose. Say what the person comes here to do, ranked.**
+Write it as their questions, most important first: "is anything waiting on me?", "what is on this
+week?", "how is it going overall?". Three or four at most. Everything on the surface answers one
+of them; what answers none is cut. If you cannot rank them, ask (step 2), because the ranking is
+the design.
 
-1. **Frame first.** A real window bar: icon, title, pin, close. A desk card's host bar draws these; the icon is the
-   page's menu `icon` (dev-hj 63084d9611 and later; older builds show none). Under it, one toolbar, then the content. Get the header right before polishing anything.
-2. **Fold sparingly; icons and controls in line with the text.** Content is open by default; fold only what is
-   long and secondary, one level deep. Icons are welcome: each icon and control sits on the same line as its
-   text, on the baseline, at the text's size, in a consistent place (leading icon before the label, actions at
-   the row's end). No grip strips or kebab dots; put those actions in the right-click menu.
-3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.
-   Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece; in a frame, which cannot inherit, `font-family: var(--type-family-sans, Pretendard, system-ui, sans-serif)` with Pretendard loaded (§5). The one exception
-   is one display figure when it is the widget's whole job (a clock, one count, a metric spread's headline):
-   one number, weight 400, at most 40 px. Every other line stays 13/12.
-4. **Less text.** Use 877k and 1.5M; exact values go in `title=`. State a unit once, not on every row.
-   Detail goes on hover or in a menu.
-5. **No drama.** No glows, gradients, share bars, extra chips or badges unless they carry the
-   decision. Colour goes on one thing (the brand), with warning colour only where something is wrong.
-6. **One surface.** Never a card inside a card. A widget's window *is* the card.
-7. **Keep what works.** Behaviour the user approved stays: right-click, cache, refresh on open.
-8. **Ask for the look.** Ask the person once for images or references of the look they want. Those are the
-   target; the shipped spreads are the floor: study the closest ones, never land below them.
-9. **Place with a reason.** Before placing anything, write what the person comes to do (ranked), what leads,
-   what sits together and each block's size, and show it with the picture. The one thing to act on leads.
-10. **Keep good designs; never regress.** Reuse a design the person likes instead of redrawing it. Replace
-   only with something clearly better, checked side by side before showing.
+**2. Hierarchy. One thing leads, and it is the thing they act on.**
+The top question gets the first position and the surface's single accent. The lead is as big as
+its content, not as big as its importance: one item with one action is a band one row high, and
+it still leads because it is first and alone. Everything else is quieter than the lead and
+ordered by the ranking. When nothing needs the person, the lead is not drawn and the next
+question leads.
+
+**3. Grouping. Things sit together when one explains the other.**
+A summary belongs to the list it summarises, as that list's first line; apart from it, it is a
+box with nothing to do. A control belongs to the thing it changes, on that thing's row. Things
+that answer different questions are separate sections with space between them, not a border
+around each. A group is shown by nearness and a shared heading before it is shown by a box.
+
+**4. Sizing. Each block is as wide and as tall as what it holds.**
+Seven days side by side need the full width; one sentence does not. A glance figure is one
+line; a list is as tall as its rows. Equal boxes for unequal content say that nobody looked.
+Decide each block's width from what it must show side by side, and its height from its busiest
+case, then check the empty and the long case.
+
+Behind all four: **the target is the person's own reference.** Ask once for pictures or
+references of the look they want (step 2). What they give outranks every default here. The
+shipped spreads are the floor: study the closest ones before designing (step 3) so the result is
+never below them, then go toward the person's references.
+
+## The layout note: write it before placing anything
+
+Put these lines in your plan, and give them to the person with the picture at the end. They are
+the design; the build follows them.
+
+```
+Comes here to:   1. <question>   2. <question>   3. <question>
+Leads:           <block>, because <it is what they act on / the top question>
+Together:        <A with B, because A summarises B> ...
+Sizes:           <block>: <width>, <height>, because <its content>
+Cut:             <what was asked for or available but answers no question>
+```
+
+### Worked example: a personal dashboard
+
+The data: a week of family events, nine quests in four areas, one quest waiting on an answer.
+
+A first build placed four equal full-width boxes in the order the data arrived: calendar,
+progress, the waiting quest, quests by area. Every part was tidy, and the page still read as
+things put down wherever they landed: the one item needing an action was third, a single
+percentage had a box as big as the calendar, and the area cards sat inside another box.
+
+The layout note that fixed it:
+
+```
+Comes here to:   1. see whether anything waits on me, and answer it
+                 2. see this week, today first
+                 3. glance at how the quests are going
+                 4. find a quest by its area
+Leads:           the waiting quest: the only thing to act on, so the only accent and action.
+                 One item, so a band one row high. Not drawn when nothing waits.
+Together:        overall progress with the areas: it is their summary, so it is the first line
+                 of that section, not a box of its own.
+Sizes:           waiting quest: full width, one row.
+                 week: full width (seven columns), as tall as the busiest day, today marked.
+                 quests: summary one line; areas as many columns as fit, a card each, no box
+                 around the cards.
+Cut:             per-quest progress bars and status colours: the count says it; colour stays
+                 for the one waiting.
+```
+
+The result has three sections instead of four boxes, and a person can say what each is for.
+
+### Worked example: a small desk widget
+
+Ask: "a small card for the dollar rate".
+
+```
+Comes here to:   1. read today's rate   2. see whether it moved
+Leads:           the rate: the widget's whole job, so the one display figure.
+Together:        the change sits on the rate's line: it explains the figure.
+Sizes:           300 x 200 card; the figure one line, the change beside it, the time under it.
+Cut:             a chart, a currency picker, a refresh button (it refreshes on open).
+```
+
+One figure, one line of meta. A chart was available and answered neither question, so it is cut.
+
+### Worked example: a list someone works through
+
+Ask: "a page for my open orders".
+
+```
+Comes here to:   1. find the order that needs something from me   2. check when the rest arrive
+Leads:           orders needing action, first in the list and the only rows with an accent.
+Together:        each order's status and date on its own row; the total count in the heading.
+Sizes:           one column of rows; a row is one line plus one line of meta.
+Cut:             a summary strip of counts by status: the list is short enough to read.
+```
+
+More examples, with the reasoning for each choice: `reference/layout.md`.
 
 ## 1. Echo the ask as checkpoints
 
@@ -59,8 +135,10 @@ concrete thing, never "what style do you like?") when:
 The questions worth asking:
 1. What it is for: glance at it (widget), work in it (page), or be told (alert, no window).
 2. Where it lives: desk card 380×520, pinned, wallpaper, a sidebar page, or the canvas.
-3. The look: 2–3 options, each one a reference. Use "like the app's own panels (recommended)", a named
-   spread, or the site or picture they name, with a `preview` mockup drawn from real components.
+3. The look. First ask for theirs: "Do you have a picture, a site or an app whose look you want
+   here?" (free text; a path or a link is enough). What they give is the target. If they have
+   none, offer 2–3 options, each one a reference: "like the app's own panels (recommended)", a
+   named spread, with a `preview` mockup drawn from real components.
 4. The data and freshness, only when the source is not obvious.
 
 When the card offers looks or layouts, do §3 (reuse) before it, so each option can show a real picture.
@@ -93,7 +171,12 @@ Only the owner approves taste. A coordinator's answer is not theirs.
 
 ## 3. Reuse first: the spreads library, then code
 
-Load `toast-spread-composing`. Search `find(op=spreads)` by **form**, in the user's intent words.
+Load `toast-spread-composing`. Search `find(op=spreads)` by **form**, in the user's intent words,
+once for each block in your layout note. Read the two or three closest with
+`find(op=spreads, uid=..., sections=[render])` and look at how they handle hierarchy, spacing and
+the empty case: they are the floor your result must not fall below, and usually the part itself.
+On a page, a block whose spread is already cards or a band (a card grid, day cards, one action
+band) takes `surface: none`, so no box is drawn around the cards.
 Each recipe below is proven, with a shot, and is the #1 hit for its query
 (`reference/spread-recipes.md` has the full slots and values):
 
@@ -113,7 +196,7 @@ running app, so it is the truth when this skill and the app disagree:
 the manual doesn't list. Send `X-Toast-Token: $TOAST_API_TOKEN` with it. If the route answers 503, the backend is missing its generated contract.
 Say so; don't guess around it.
 
-Don't use kpis or watchlist in a small widget: they break rules 5 and 6. On a page they are fine. Write a sealed atom only for the
+Don't use kpis or watchlist in a small widget: they break checklist lines 5 and 6. On a page they are fine. Write a sealed atom only for the
 part no spread draws, and say why in one line. Never build a second token system, engine or
 hand-made mockup.
 
@@ -128,7 +211,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   - Linear: low-chroma neutrals, hierarchy from weight rather than boxes;
   - Notion: a calm single column.
 
-  Borrow structure, never their type scale: rule 3 wins.
+  Borrow structure, never their type scale: checklist line 3 holds unless the person's own reference says otherwise.
 - If the user named a picture, site or app, it replaces the outside references.
 
 ## 5. Build: frame, then tokens, then content
@@ -176,20 +259,24 @@ blank capture (`verdict: blank`); retry with a wait.
 
 ## 7. Compare: score before saying done
 
-1. `python scripts/ui-lint.py <atom.js | folder>` checks the code against the taste rules (T1–T7) and the rubric. It exits 1 on a major.
+1. `python scripts/ui-lint.py <atom.js | folder>` checks the code against the checklist (T1–T7) and the rubric. It exits 1 on a major.
 2. `python scripts/shot-check.py <shot.png>` measures the capture: surface bands (card in a card), insets and right edges.
 3. Score the rubric from `reference/see-it-loop.md` §2, one line each with its evidence:
    R1 window chrome, R2 hierarchy, R3 app font, R4 tokens, R5 one surface, R6 spacing, R7 alignment,
    R8 overlap, R9 truncation, R10 empty/loading/error, R11 contrast, R12 light and dark, R13 icon meaning,
    R14 copy, R15 fits the place, R16 less text, R17 no drama.
 4. Put the capture beside the §4 references and ask: does it look like it belongs next to the app's own surface?
+5. Read the capture against the layout note: is the lead the first thing the eye lands on, is each
+   group readable as a group, does each block's size match its content? A page that passes every
+   check above and fails this one is not done.
 
 **Any blocker or major means you fix it and capture again.** "Not yet seen running" means not done.
 
 ## 8. Report
 
 The result names:
-- the final capture file(s);
+- the final capture file(s), with the layout note beside them: the person judges the reasoning
+  and the picture together;
 - each checkpoint from §1 with ✓ or what changed;
 - the defaults taken (§2) and the references followed (§4);
 - any rubric line left "not seen", and why.
@@ -236,3 +323,31 @@ first, the person approves before it is worn, and everything built before must s
    piece-probe under the look, a labelled "approximate colour" for seeds, and a "not yet worn" frame sheet for art and code.
 5. **Score**: the §7 rubric on the person's own surfaces, plus L1 reach, L2 legibility and L3 motion.
 6. **Packaging**: today's calls still say theme and skin. Those names are for you only (`look-recipes.md` §6).
+
+## Checklist: run it after the design exists
+
+These are the person's standing preferences. They do not make a design; they catch slips in one.
+A reference the person gave for this surface outranks any line here (`reference/TASTE.md` has
+their own words).
+
+1. **Frame first.** A real window bar: icon, title, pin, close. A desk card's host bar draws these; the icon is the
+   page's menu `icon` (dev-hj 63084d9611 and later; older builds show none). Under it, one toolbar, then the content. Get the header right before polishing anything.
+2. **Fold sparingly; icons and controls in line with the text.** Content is open by default; fold only what is
+   long and secondary, one level deep. Icons are welcome: each icon and control sits on the same line as its
+   text, on the baseline, at the text's size, in a consistent place (leading icon before the label, actions at
+   the row's end). No grip strips or kebab dots; put those actions in the right-click menu.
+3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.
+   Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece; in a frame, which cannot inherit, `font-family: var(--type-family-sans, Pretendard, system-ui, sans-serif)` with Pretendard loaded (§5). The one exception
+   is one display figure when it is the widget's whole job (a clock, one count, a metric spread's headline):
+   one number, weight 400, at most 40 px. Every other line stays 13/12.
+4. **Less text.** Use 877k and 1.5M; exact values go in `title=`. State a unit once, not on every row.
+   Detail goes on hover or in a menu.
+5. **No drama.** No glows, gradients, share bars, extra chips or badges unless they carry the
+   decision. Colour goes on one thing (the brand), with warning colour only where something is wrong.
+6. **One surface.** Never a card inside a card. A widget's window *is* the card.
+7. **Keep what works.** Behaviour the user approved stays: right-click, cache, refresh on open.
+8. **Their reference is the target.** You asked once for the look they want and built toward it;
+   nothing lands below the closest shipped spread.
+9. **Placed with a reason.** The layout note was written before placing and goes to the person with the picture.
+10. **Keep good designs; never regress.** A design the person likes is reused, not redrawn. Replace it only with
+   something clearly better, checked side by side before showing; if it is not better, the old one stays.
