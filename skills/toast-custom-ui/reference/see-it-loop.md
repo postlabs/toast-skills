@@ -57,7 +57,7 @@ which is correct for the stock card window, whose body is a dithered gradient. T
 | Desk window (card, pinned, wallpaper) | `interface(op=apply)` returns `desk_pictures` for every window it touched; `see-it.mjs desk [ids]` looks again without a change | Each window's own page as it draws now (Electron `capturePage`), so other windows on top do not matter. A wallpaper is pictured from a hidden copy of its page. A window outside the app is not pictured. |
 | App window | `interface(op=preview)` or `see-it.mjs app` | **`page=` is ignored**: it pictures whatever page the window shows now (asked for `/pages/dev-tree`, got `/quests`). Read `snapshot_state.page` before scoring. To see your page, put it in a desk window (`windows` patch) and use `see-it.mjs desk`. |
 | A piece in states and looks you cannot reach live | `piece-probe.mjs cases.json` | Uses the shipped looks' values (`look-values.css`) or your own look's package and the backend's Pretendard. `font: fallback` in its report means the backend did not answer: do not score R3 then. |
-| Canvas pane | `render(..., picture: true)` | A sealed atom draws blank or "not installed" in the canvas until finalize, so score sealed pieces through their desk window, `piece-probe.mjs` or `probe_frame.mjs`. |
+| Canvas pane | `render(..., picture: true)` | A sealed atom draws blank or "not installed" in the canvas until finalize, so score sealed pieces through their desk window, `piece-probe.mjs` or `frame-probe.mjs`. |
 | No desktop app | none | A backend on its own has no screen: `see-it.mjs` answers `unavailable`. Score the headless pictures and say the live window was not seen. |
 
 - Look closer: crop and enlarge 2× the region you are judging. Spacing and double-surface defects are
@@ -74,7 +74,7 @@ line of code). Blocker or major → fix and re-capture.
 
 | # | Check | Pass when | Typical miss |
 |---|---|---|---|
-| R1 | **Window chrome** (T1) | A desk window has a real bar: icon + title on the left, close on the right, matching the app's own windows. | six-dot strip and a bare × (Dev Tree v1) |
+| R1 | **Window chrome** (T1) | A desk window has a real bar: title on the left, pin and close on the right, matching the app's own windows (the host card bar has no icon). | six-dot strip and a bare × (Dev Tree v1) |
 | R2 | **Hierarchy** | In 2 s a stranger can say what this is and what matters most: one title, one lead figure, then detail. Weight/size steps are visible between levels. | no title / no colour (Dev Tree v1); every row the same weight |
 | R3 | **App font, two sizes** (T3) | Text inherits the app font (`font: inherit`; Pretendard on stock). Two sizes: 13 px body, 12 px meta; weight 400, 500 for names, 600 only for the window title. | system-ui (Dev Tree v1) |
 | R4 | **Tokens, not hex** | Every colour, radius and spacing is a look's token (`var(--bg-neutral-base, …)` etc.). Hex only as a fallback inside `var()`. Count raw hex outside `var()`: 0. | hard-coded palette that breaks under another look |

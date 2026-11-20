@@ -76,9 +76,12 @@ def lint(path: Path):
         out.append({"rule": rule, "severity": sev, "file": path.name, "line": ln, "message": msg, "source": src})
 
     # T3 / R3: app font, inherited
+    # A sealed frame cannot inherit: it pins the worn look's font, Pretendard by default.
+    frame_pin = re.compile(r"^\s*['\"]?(var\(\s*--type-family-sans|pretendard)", re.I)
     for m in FONT_FAMILY.finditer(text):
-        if "inherit" not in m.group(1):
-            add("T3", "major", m.start(), f"font-family '{m.group(1).strip()}' — inherit the app font (font: inherit)")
+        val = m.group(1)
+        if "inherit" not in val and not frame_pin.search(val):
+            add("T3", "major", m.start(), f"font-family '{val.strip()}' — inherit the app font (font: inherit), or in a frame pin var(--type-family-sans, Pretendard, system-ui, sans-serif)")
     for m in FONT_SHORT.finditer(text):
         val = m.group(1)
         if "inherit" not in val and SYSTEM_FONTS.search(val):

@@ -15,12 +15,12 @@ leaves a line in your plan or result, so a reviewer can see it was done.
 
 ## 0. The user's taste: standing rules (they override every reference)
 
-1. **Frame first.** A real window bar: icon, title, pin, close. Under it, one toolbar, then
-   the content. Get the header right before polishing anything.
+1. **Frame first.** A real window bar: title, pin, close (a desk card's host bar draws these; it has no icon, and a
+   page cannot add one). Under it, one toolbar, then the content. Get the header right before polishing anything.
 2. **Words over glyphs.** Write "Expand", "Collapse", "More" as text. Icons only for search, close,
    pin, folder and file. No chevron rows, grips or kebabs.
 3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.
-   Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece, and Pretendard pinned in a frame (§5). The one exception
+   Use the worn look's font (Pretendard unless the look changes it): `font: inherit` in a piece; in a frame, which cannot inherit, `font-family: var(--type-family-sans, Pretendard, system-ui, sans-serif)` with Pretendard loaded (§5). The one exception
    is one display figure when it is the widget's whole job (a clock, one count, a metric spread's headline):
    one number, weight 400, at most 40 px. Every other line stays 13/12.
 4. **Less text.** Use 877k and 1.5M; exact values go in `title=`. State a unit once, not on every row.
@@ -44,7 +44,9 @@ concrete thing, never "what style do you like?") when:
 - it replaces something they have (a page, the menu, their look);
 - it changes a look they chose;
 - it adds actions that reach outside the PC;
-- or it is personal or decorative (widget look, wallpaper) with no reference given.
+- it is decorative, meaning its look is the point (wallpaper, an ornament), with no reference given. A widget
+  with a clear job (a count, a list, a converter) is not decorative: build it with the defaults;
+- or the data is unknown and no source is obvious (whose stocks, which account, which list).
 
 The questions worth asking:
 1. What it is for: glance at it (widget), work in it (page), or be told (alert, no window).
@@ -53,15 +55,20 @@ The questions worth asking:
    spread, or the site or picture they name, with a `preview` mockup drawn from real components.
 4. The data and freshness, only when the source is not obvious.
 
-**Each option's `preview` is a picture.** Capture it first (§6, `piece=` or a probe shot), save the PNG in
-the chat's own tray folder, and put that path, or a `data:` image, as the option's `preview`. Toast draws it
+When the card offers looks or layouts, do §3 (reuse) before it, so each option can show a real picture.
+
+**A look or layout option's `preview` is a picture**; other options (which stocks, how often) need none. Capture it
+first (§6, `piece=`, a probe shot or `render(picture)`), copy the PNG into the chat's own tray folder (a `render` picture
+sits under `tool-results` at a path too long for Windows: copy it to a short path first), and put that **absolute path**,
+or a `data:` image, as the option's `preview`. Toast draws it
 in a 240×150 frame above the label. It draws nothing else: text, markdown or a path outside the tray is
 ignored. A picture-less option says only what it is.
 
 **Don't ask** when the request already answers it, when it is a revision of something they saw, or when
 the user is away. Take the defaults instead and say them in the result:
 - the app look and stock tokens;
-- a `card` window at 380×520;
+- a `card` window at 380×520. When they say "small", or it shows one figure, use `place` 300×200 (the card takes its
+  content's height up to that);
 - refresh on open;
 - the nearest existing app pattern.
 
@@ -84,7 +91,8 @@ Each recipe below is proven, with a shot, and is the #1 hit for its query
 
 | Intent | Spread | Find query | Watch |
 |---|---|---|---|
-| Widget: one number | `postlab.sp-803ff7ed20ec444abdef6022f9fd53a2` metric | `a single number given the whole card` | Draws its own border, so in a card window use progress_ring `postlab.sp-ac0b7d1cbda84ff4949e5e15cb3410b8`. Leave `delta` off the value. |
+| Widget: one number | `postlab.sp-803ff7ed20ec444abdef6022f9fd53a2` metric | `a single number given the whole card` | Draws its own border (R5 in a card) and progress_ring `postlab.sp-ac0b7d1cbda84ff4949e5e15cb3410b8` is ≈ 50 px with no size knob (R15). In a small card neither fits yet: write a small sealed atom (one figure, one label) and say why. On a page, metric is fine. Leave `delta` off. |
+| Page: stocks I watch | `postlab.sp-5fbb84ffc9824d039a84a28448f0405b` watchlist | `stock watchlist with price and daily change` | Pages only. Feed: a quote dough (Naver Finance for KRX codes, Yahoo for others); ask which stocks when no list or account is known. |
 | Dashboard | `postlab.sp-18f46dcb12e24ee2a3b27a9cb55d83da` metric_ribbon + `postlab.sp-a9c405bacb604c438682c14a9fc5bb78` trend | `open metric strip` · `values measured over time line chart` | 3 items. `tone: brand`. `mode: line` for a reference line. `title` is a field key. |
 | Tracker / habit | `postlab.sp-f67214017a2d418f8e7edd7c272aed8a` calendar_heatmap | `day-by-day activity calendar` | `days: [{date, value}]`, `weekStart: mon`, and `monthLabels: false` for spans under 6 months. |
 | To-do / checklist | `postlab.sp-327f35e24cd54ab9bcefe4be07d7fb01` task_list | `checkable to-do list` | Done rows go in `doneItems`. `priority: null`. Short due words. |
@@ -97,7 +105,7 @@ running app, so it is the truth when this skill and the app disagree:
 the manual doesn't list. Send `X-Toast-Token: $TOAST_API_TOKEN` with it. If the route answers 503, the backend is missing its generated contract.
 Say so; don't guess around it.
 
-Don't use kpis or watchlist in a widget: they break rules 5 and 6. Write a sealed atom only for the
+Don't use kpis or watchlist in a small widget: they break rules 5 and 6. On a page they are fine. Write a sealed atom only for the
 part no spread draws, and say why in one line. Never build a second token system, engine or
 hand-made mockup.
 
@@ -124,7 +132,9 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   app code. It shows "창 보기" (open window) as a placeholder until the user approves that code, so you cannot see it live until they do.
   If the atom needs no app access (no `navigate` or `refresh` action), draw it through the `sealed` spread
   `postlab.sp-8a0c3270532b4db68ece64c763b209c7` in a `kind: spread` block instead. That is a frame, and with `hosts: []`
-  it runs without approval (the backend approves a family with no `hosts` by itself). This is not yet proven on a desk card, so capture it.
+  it runs without approval (the backend approves a family with no `hosts` by itself).
+  A family still in your tray is a draft: its block needs `chat: <read's caller.chat>` to find it, and the page then lives
+  only as long as that chat. Say so in the result until the family is published.
   If it must be a piece, say in the first line of the result that their approval is needed, and score
   `interface(op=preview, piece=…)` shots in the meantime.
 - **Tokens.** Read the worn look's values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. `core=true` returns the core set only, without `--text-neutral-muted`; read with a prefix to get it. Start with the core set and stay in it. Secondary and meta text is `--text-neutral-muted`; `--text-neutral-soft` fails contrast under every light look, so use it only for a placeholder, never for body or meta text, and never put muted text on a tinted fill. Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
@@ -163,7 +173,7 @@ blank capture (`verdict: blank`); retry with a wait.
 3. Score the rubric from `reference/see-it-loop.md` §2, one line each with its evidence:
    R1 window chrome, R2 hierarchy, R3 app font, R4 tokens, R5 one surface, R6 spacing, R7 alignment,
    R8 overlap, R9 truncation, R10 empty/loading/error, R11 contrast, R12 light and dark, R13 icon meaning,
-   R14 copy, R15 fits the place.
+   R14 copy, R15 fits the place, R16 less text, R17 no drama.
 4. Put the capture beside the §4 references and ask: does it look like it belongs next to the app's own surface?
 
 **Any blocker or major means you fix it and capture again.** "Not yet seen running" means not done.
