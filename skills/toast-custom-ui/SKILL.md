@@ -272,6 +272,23 @@ blank capture (`verdict: blank`); retry with a wait.
 
 **Any blocker or major means you fix it and capture again.** "Not yet seen running" means not done.
 
+### Iterate until it is good, before anyone sees it
+
+Passing the checks is the floor, not the finish. The first build is a draft, and only your best
+version goes to the person. After each capture:
+1. Look at it as a demanding designer would. Name the three weakest things in the picture, the
+   ones a person would notice first: a ragged row of cards, a title wrapping around a chip, a
+   count hanging off a line, a block too big for what it holds, uneven gaps, a lead that does
+   not lead.
+2. Fix those three, capture again, and put the new capture beside the old one. Keep whichever is
+   better.
+3. Repeat. Do at least two rounds, and stop only when you would put it beside the person's
+   reference or the closest shipped spread without it looking worse. It should look finished,
+   not merely correct.
+
+Show the person one result, not drafts. List the rounds in the report, one line each: what was
+weak and what changed.
+
 ## 8. Report
 
 The result names:
