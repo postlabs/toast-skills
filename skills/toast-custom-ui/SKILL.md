@@ -127,7 +127,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   it runs without approval (the backend approves a family with no `hosts` by itself). This is not yet proven on a desk card, so capture it.
   If it must be a piece, say in the first line of the result that their approval is needed, and score
   `interface(op=preview, piece=…)` shots in the meantime.
-- **Tokens.** Read the worn look's values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. Start with the core set and stay in it. Secondary and meta text is `--text-neutral-muted`; `--text-neutral-soft` fails contrast under every light look, so use it only for a placeholder, never for body or meta text, and never put muted text on a tinted fill. Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
+- **Tokens.** Read the worn look's values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. `core=true` returns the core set only, without `--text-neutral-muted`; read with a prefix to get it. Start with the core set and stay in it. Secondary and meta text is `--text-neutral-muted`; `--text-neutral-soft` fails contrast under every light look, so use it only for a placeholder, never for body or meta text, and never put muted text on a tinted fill. Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
   `var(--border-neutral, …)`. Hex appears only as a `var()` fallback, and the fallbacks must work on light *and* dark.
   In a sealed frame, copy `ctx.theme.tokens` onto `el` (`el.style.setProperty(k, v)`).
 - **Sealed atom rules** (from source; full list in `reference/references.md` §1):
@@ -158,6 +158,8 @@ Every `/api/` call sends `X-Toast-Token: $TOAST_API_TOKEN` (outside a Toast sess
 | Canvas pane (spread) | `render(..., picture: true)`. The receipt's `instance_keys` shows what each instance read: if your data's keys are missing, the binding is wrong. A canvas pane adds a card frame a desk window does not, so judge a window only by its desk picture. |
 | Sealed atom draft | `render(..., picture: true)` draws this conversation's draft families. Older backends say "not installed"; there, load the frame headless with `scripts/probe_frame.mjs <frame url> <png> <json> [dark]` and post your own data. The frame URL is the backend's `http://atoms.localhost:<port>/api/v1/sealed/frame?jar=…&family=…&atom=…&chat=…`. |
 | No desktop app (a backend on its own) | Nothing is on a screen, so `see-it.mjs` answers `unavailable`. Score the `piece-probe.mjs` and `render` pictures, and say in the result that the live window is not seen. |
+
+Picture paths under `tool-results` can pass Windows' 260-character limit. Copy a picture to a short path before a script opens it.
 
 Capture these states: default, hover or selected, 1 / 3 / 8+ items, the longest real name, empty, loading and error,
 light and dark, Korean and English if both ship. Crop and enlarge the header, a row and the corners 2×. Never score a
@@ -202,12 +204,11 @@ system: build each layer the way this skill already says, then name the bundle, 
 On the card and in the result there is only "a look", never "theme" or "skin".
 
 There are 8 shipped looks: `nocturne` (dark, stock), `classic` (light), `sunset`, `pastel`, `sage`, `rpg`, `rpg-paper` and `office`.
-`rpg` and `office` bring their own art and parts.
+`rpg` and `office` bring their own art and parts. rpg's art is painted, not pixel art.
 
-The steps are the same (echo, ask, reuse, reference, build, look, score), with three differences:
-- you choose the layers first;
-- the person approves before the look is worn;
-- everything built before must still read under it.
+From §1–8, a look keeps: echo (§1), the ask (§2, done as §9.2), look (§6) and score (§7, through §9.5). It skips the widget
+steps: spread reuse (§3), the frame and 380×520 defaults (§5) and R1 window chrome. What a look adds: you choose the layers
+first, the person approves before it is worn, and everything built before must still read under it.
 
 ### 9.1 Fill as few layers as the ask needs
 
@@ -215,16 +216,25 @@ Start from a shipped look. Then fill values, motion, images, and code only for w
 
 | The person says | Layers filled |
 |---|---|
-| "dark", "lighter", "warmer", "softer", "game-like", "like Office" | none: wear a shipped look |
+| "dark", "lighter", "softer", "like Office" | none: wear a shipped look |
+| "warmer" | none (`sunset`, `pastel` and `sage` are all light) |
+| "warm and dark", "night café" | values: nocturne with a warm accent seed and warm neutral values (§9.3) |
+| "game-like" | none: `rpg`, a painted look |
 | "my brand green", "rounder", "this font" | values |
 | "calmer", "less motion", "no sparkles" | motion |
 | "my photo in the header", "framed boards" | images (+ values) |
-| "redraw the sidebar", "an animated scene", "pixel-art quest page" | code (+ images, values) |
+| "redraw the sidebar", "an animated scene", "pixel art" | code (+ images, values) |
 | "…and on its own page / in the menu" | + interface changes |
 
-- **Motion** has six things that move: hover, dock open and close, unfold, quest draw, sparkle. Anything else that moves
-  ("when I finish a task") belongs to the widget that shows it (§5, preferred) or to the code layer.
-- A look for **one page** sits on that page alone. Say so on the card.
+- **Motion** has six things that move: hover, dock open and close, unfold, quest draw and sparkle. Anything else that moves
+  ("when I finish a task") is not a look:
+  - If a widget already shows the tasks, add the motion there (§5).
+  - If none does, the smallest route is a new widget that does (§2–8).
+  - Redrawing a stock part with code is the larger option.
+  - Say which one on the card.
+- **A look for one page** can hold values and images only (`pages[...]`). Code is app-wide, so a part the look redraws changes
+  everywhere it is drawn. Quest-only parts: `questScene`, `questOverviewRow`, `questToolbar`, `questBoard`.
+  `questWorkspace`, `questChat` and `questActivity` render elsewhere too. Say this on the card.
 - Your widgets follow any look only through tokens. A hex outside a `var()` fallback breaks the first time the look
   changes (`ui-lint.py` R4).
 
@@ -234,26 +244,35 @@ Every look change asks first, follow-ups included. The card names the look and s
 - **what changes**, in their words (the accent goes ink green, corners soften, the dock opens faster);
 - **what stays**: pages, widgets, data, and every layer the look does not fill;
 - **whether it carries code**. If it does, Toast shows an approval dialog;
-- **how to go back**: "pick your earlier look again". Promise one-step undo only when read's `undoScope` covers the whole UI;
-  today it is `arrangement_only`;
-- 2–3 options, recommended first. Each is a whole look with a `preview` from probe shots (§9.4). When a shipped look is
-  close, it is the smallest option.
+- **how to go back**, from `undoScope` read just now, never from memory:
+  - `whole_ui`: "undo";
+  - otherwise "pick your earlier look again" (read's current `theme`/`skin`), plus "the code is rolled back" if the look carries code;
+- 2–3 options, recommended first. Each is a whole look with a `preview` (§9.4). When a shipped look is close, it is the smallest
+  option.
 
 Nothing is worn before the answer. A coordinator's yes is not the person's.
 
 ### 9.3 Build each layer
 
-- **Values.** Change a hue through the colour seeds, with all seven tones. Hand-set brand values leave icons and soft text
-  on the hue underneath. Single values (corners, spacing, font) sit beside the seeds and win over them. A look is
-  one scheme, light or dark; someone who wants both gets two looks, and the card says so.
-- **Motion.** Animate state changes only: hover 120–150 ms, open and unfold 160–200 ms. Quest draw and sparkle stay off unless asked.
-  Nothing bouncy, nothing over 300 ms, nothing idle. The app zeroes motion under the OS's reduced-motion
-  setting, and your atoms check `ctx.theme.reducedMotion`. **Validation does not check durations or fonts**: you do.
-- **Images.** Use embedded data URLs only (png, webp or jpeg; ≤ 4096 px, ≤ 6 MB). Borrow a shipped look's art by binding it. Dark art needs light
-  text: the check refuses text that does not read.
-- **Code.** Fork a shipped look's source: office for 1–2 parts, rpg for many.
-  - Delete every copied part you don't redraw.
-  - Keep `docks(lanes)` in a replaced app layout.
+- **Values.**
+  - **Accents** (brand and the other six tones) change through the colour seeds, all seven tones. Hand-set accent values leave
+    icons and soft text on the hue underneath.
+  - **Surfaces and text** can't be seeded (a `neutral` seed is refused), so set them by hand as one set: base, page, raised and
+    sunken backgrounds, borders, and the text ramp down to `--text-neutral-muted`. Check each text step on base for ≥ 4.5:1.
+  - Single values (corners, spacing, font) sit beside the seeds and win over them.
+  - A look is one scheme, light or dark; someone who wants both gets two looks, and the card says so.
+- **Motion.**
+  - Animate state changes only, never over 300 ms: hover 120–150 ms, open and unfold 160–200 ms.
+  - A celebration ("when I finish") is one state change of ≤ 300 ms, never confetti or a burst.
+  - A loop is allowed only while it is bound to a working state, and it stops when the work stops; never idle.
+  - Quest draw and sparkle stay off unless asked. Nothing bouncy.
+  - The app zeroes motion under the OS's reduced-motion setting, and your atoms check `ctx.theme.reducedMotion`.
+  - **Validation does not check durations or fonts**: you do.
+- **Images.** Use embedded data URLs only (png, webp or jpeg; ≤ 4096 px, ≤ 6 MB). Borrow a shipped look's art by binding it.
+  Dark art needs light text: the check refuses text that does not read.
+- **Code.** Fork a shipped look's source.
+  - `office` copies 4 parts. `rpg` copies 1 part (`questScene`) plus 3 value bindings, not the 16 the skin guide says.
+  - Delete every copied part you don't redraw, and keep `docks(lanes)` in a replaced app layout.
   - One look with code is active at a time, so put everything in it.
   - Build in your tray. Install only after the card's yes, and tell the person to look for the approval dialog.
 - **Interface changes** go in the same write as the look.
@@ -262,25 +281,30 @@ Exact shapes are in `reference/look-recipes.md` §2–5.
 
 ### 9.4 See it before it is worn
 
-Validate the whole look with the same arguments the write will send, `points` included. Read the issues (unknown names and
-illegible pairs are refused with the reason) and the revision warnings. Validation draws nothing, so:
+Read the revision just before you validate, and again just before you apply. Another session's write moves it, and a stale
+one is refused with a 409. Validate the whole look with the same arguments the write will send, `points` included.
+- **A look with images:** the `interface` tool takes no `file` for validate, so send it to the backend:
+  `POST /api/v1/interface` with `{op: "validate", ...}` and the `X-Toast-Token` header.
+- **Read the answer:** the issues (unknown names and illegible pairs are refused with the reason) and the revision warnings.
 
-| What | How you see it before wearing |
+Validation draws nothing, so each option's `preview` is one of these:
+
+| What | Preview |
 |---|---|
 | Your widgets under a shipped look | `piece-probe.mjs`, case `"look": "<name>"` |
 | Your widgets under your look's values | the same, with `"look": "<package>.json", "under": "<shipped look>"` |
-| A seeded hue | not seen yet: the colour engine does not run headless. Say "not seen". |
+| A seeded hue | an approximation: hand-set the accent you expect in a probe case, and label it "approximate colour" on the card |
+| Images and code | a frame sheet: the art and the parts' key frames side by side in one PNG, labelled "not yet worn" |
 | Spreads on the canvas | `render(picture)`: the worn look only |
-| Images and code | only once worn, which is why the card comes first |
 
-The look underneath, as values: `interface(op=skin_values, core=true)`. `look-values.css` is the fallback, and you say which you used.
+For the look underneath, read `interface(op=skin_values, core=true)`. `look-values.css` is the fallback; say which one you used.
 
 ### 9.5 Score the look
 
 Run the §7 rubric on probe shots of **the person's own pages and widgets** under the look, then three more lines:
 - **L1 reach:** every accent moved, including icons, soft text and tints.
-- **L2 legibility:** text on brand fills and on images is ≥ 4.5:1.
-- **L3 motion:** each moving thing is listed with its duration, and none is idle or looping.
+- **L2 legibility:** text on brand fills, on hand-set surfaces and on images is ≥ 4.5:1.
+- **L3 motion:** each moving thing is listed with its duration (≤ 300 ms). A loop names the working state that bounds it.
 
 Report as §8 does, plus the layers the look fills and what was not seen.
 
@@ -289,7 +313,10 @@ Report as §8 does, plus the layers the look fills and what was not seen.
 Today a look's layers go through calls whose names still say "theme" and "skin". Those names are for you only. The full
 table is in `reference/look-recipes.md` §6. In short:
 - values, motion and images form one package (`themes: [package]` in `interface apply`);
-- a shipped look is worn by `patch.skin` / `patch.theme`;
+- `patch.skin` wears only the package's values and motion, so the worn art and parts stay. `patch.theme` wears the whole package
+  (images, `base`, `components`). For one page, use `pages[...].theme` / `.skin`;
+- `base` is a real name: `default`, `rpg`, `palace`, `office` or `easy` (the worn look's, from read). `$worn` in the schema
+  examples is a placeholder, and the literal is refused;
 - the code layer goes through `skin op=fork → build → install`;
 - interface changes ride in the same apply;
 - validate the whole look first.
