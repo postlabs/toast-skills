@@ -25,6 +25,7 @@ node $S/piece-probe.mjs cases.json
 ```
 
 Everything goes through the Toast backend (`PEEL_BASE_URL`, default `http://127.0.0.1:18587/api/v1`).
+Every `/api/` call sends `X-Toast-Token: $TOAST_API_TOKEN` (outside a Toast session, the token is the file `api-token` in Toast's data folder); `/health` and the sealed routes need none.
 There is no OS screenshot and no Toast source checkout, and nothing in the user's Toast changes.
 
 | Tool | Sees | Catches without judgment |

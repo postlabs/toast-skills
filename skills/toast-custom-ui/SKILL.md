@@ -89,7 +89,7 @@ Each recipe below is proven, with a shot, and is the #1 hit for its query
 running app, so it is the truth when this skill and the app disagree:
 `GET http://127.0.0.1:18587/api/v1/contract/frontend?section=index` lists the components, then
 `?section=components&name=<name>` gives one component's props and actions. Don't use a prop or action
-the manual doesn't list. If the route answers 503, the backend is missing its generated contract.
+the manual doesn't list. Send `X-Toast-Token: $TOAST_API_TOKEN` with it. If the route answers 503, the backend is missing its generated contract.
 Say so; don't guess around it.
 
 Don't use kpis or watchlist in a widget: they break rules 5 and 6. Write a sealed atom only for the
@@ -142,6 +142,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
 Capture what the user will see. A shot of a different surface does not count. Every capture below goes
 through the Toast backend (peel tools or its local HTTP API at `PEEL_BASE_URL`, default
 `http://127.0.0.1:18587/api/v1`): no Toast source checkout, no OS screenshot, nothing changed.
+Every `/api/` call sends `X-Toast-Token: $TOAST_API_TOKEN` (outside a Toast session, the token is the file `api-token` in Toast's data folder); `/health` and the sealed routes need none.
 
 | Surface | Capture |
 |---|---|
