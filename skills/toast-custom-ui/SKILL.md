@@ -15,8 +15,8 @@ leaves a line in your plan or result, so a reviewer can see it was done.
 
 ## 0. The user's taste: standing rules (they override every reference)
 
-1. **Frame first.** A real window bar: title, pin, close (a desk card's host bar draws these; it has no icon, and a
-   page cannot add one). Under it, one toolbar, then the content. Get the header right before polishing anything.
+1. **Frame first.** A real window bar: icon, title, pin, close. A desk card's host bar draws these; the icon is the
+   page's menu `icon` (dev-hj 63084d9611 and later; older builds show none). Under it, one toolbar, then the content. Get the header right before polishing anything.
 2. **Words over glyphs.** Write "Expand", "Collapse", "More" as text. Icons only for search, close,
    pin, folder and file. No chevron rows, grips or kebabs.
 3. **Two type sizes.** 13 px body and 12 px meta. Weight 400, 500 for names, and 600 only for the window title.

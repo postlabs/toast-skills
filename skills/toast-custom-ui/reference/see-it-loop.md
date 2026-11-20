@@ -74,7 +74,7 @@ line of code). Blocker or major → fix and re-capture.
 
 | # | Check | Pass when | Typical miss |
 |---|---|---|---|
-| R1 | **Window chrome** (T1) | A desk window has a real bar: title on the left, pin and close on the right, matching the app's own windows (the host card bar has no icon). | six-dot strip and a bare × (Dev Tree v1) |
+| R1 | **Window chrome** (T1) | A desk window has a real bar: icon and title on the left, pin and close on the right, matching the app's own windows (the icon is the page's menu `icon`). | six-dot strip and a bare × (Dev Tree v1) |
 | R2 | **Hierarchy** | In 2 s a stranger can say what this is and what matters most: one title, one lead figure, then detail. Weight/size steps are visible between levels. | no title / no colour (Dev Tree v1); every row the same weight |
 | R3 | **App font, two sizes** (T3) | Text inherits the app font (`font: inherit`; Pretendard on stock). Two sizes: 13 px body, 12 px meta; weight 400, 500 for names, 600 only for the window title. | system-ui (Dev Tree v1) |
 | R4 | **Tokens, not hex** | Every colour, radius and spacing is a look's token (`var(--bg-neutral-base, …)` etc.). Hex only as a fallback inside `var()`. Count raw hex outside `var()`: 0. | hard-coded palette that breaks under another look |
