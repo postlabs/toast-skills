@@ -179,95 +179,108 @@ The result names:
 
 Keep it short: the picture carries it.
 
-## 9. Looks: themes, pictures, skins and motion
+## 9. Looks
 
-A look changes **how the whole app reads**, not one surface. The same steps apply (echo, ask, reuse,
-reference, build, look, score), with three differences: the level comes first, the user always
-approves before it is worn, and everything you built before must still read under it.
+To the person there is one thing: **a look**. A look is how the app reads, packaged as one unit. It holds:
+- **values**: colour, corners, spacing, type and motion;
+- **images**: pictures and frames over the app's surfaces;
+- **code**, only when needed: parts redrawn;
+- any **interface changes** that go with it: a page, a menu entry, a window.
 
-### 9.1 Name the level first (the smallest that says the ask)
+Never ask the person to choose between "a theme" and "a skin", and never use either word on the card. Levels are
+how *you* build the look, smallest first. They are not kinds the person picks.
 
-| Level | Says | Ask → level |
+The same steps apply (echo, ask, reuse, reference, build, look, score), with three differences:
+- you decide what the look must hold before anything else;
+- the person always approves before it is worn;
+- everything built before must still read under it.
+
+### 9.1 Decide what the look must hold (smallest first)
+
+Start from the looks that ship. Add values, then images, and code only for what nothing smaller can say.
+
+| The person says | The look holds | Smallest build |
 |---|---|---|
-| **Bundled** | Wear a look that ships: `{"skin": id}` for colours only, `{"theme": x, "skin": x}` for rpg/office pieces and art | "make it dark" → `nocturne` · "something warmer" → `sunset` or `pastel` · "game-like" → `rpg` · "like Office" → `office` |
-| **A values** | A `version: 2` data-only theme: colour, corners, spacing, type, motion | "my brand green" · "rounder corners" · "calmer, less motion" · "use this font" |
-| **B images** | Image slots and border frames over stock surfaces | "my photo in the header" · "frame the boards with that art" |
-| **E code** | A skin package: trusted TSX replacing registered components | "redraw the sidebar as a ship's log" · "an animated scene" · anything no token or slot can say |
+| "dark", "lighter", "warmer", "softer" | a shipped look | wear it as it is |
+| "game-like", "paper", "like Office" | a shipped look with its own parts | wear it as it is |
+| "my brand green", "rounder", "this font" | values | a values-only look |
+| "calmer", "less motion", "no sparkles" | motion values | a values-only look |
+| "my photo in the header", "framed boards" | images (+ values) | values and images |
+| "redraw the sidebar", "an animated scene", "pixel-art quest page" | redrawn parts (+ images, values) | with code |
+| "…and put it on its own page / in the menu" | + interface changes | the same apply, with `pages` / `add_navigation` |
 
 Rules:
-- Try **bundled** before A, and A before E. A request for colour is never a code skin.
-- **Motion is level A.** `motion` holds six named targets: `hover`, `dockOpen`, `dockClose`,
-  `scrollUnfold`, `questDraw` and `sparkle`. A moving scene beyond those is level E (rpg's `questScene`).
-- A look for **one page** goes on that page's own `theme`/`skin` fields, not the app's.
-- Your own widgets follow a look **only through tokens**. A hex outside a `var()` fallback is a bug that
-  shows the first time the user changes skin (`ui-lint.py` R4).
+- Motion is a value. Six things move: hover, dock open and close, unfold, quest draw and sparkle. Anything else
+  that moves ("when I finish a task") is either a part of the widget that shows it (§5, preferred) or redrawn code.
+- A look for one page sits on that page alone. Say so on the card.
+- Widgets you built follow a look only through tokens. A hex outside a `var()` fallback breaks the first time the
+  look changes (`ui-lint.py` R4).
 
-### 9.2 Ask (always) — one card
+### 9.2 Ask, every time, with one card
 
-Every look change asks first, even a follow-up in the same chat. One AskUserQuestion card holds:
-- the **level** and, for E, that it is **code** needing their approval in a Toast dialog;
-- **what changes**, in their words, and **what stays** (layout, pages, widgets, data);
-- **how it is undone**: the earlier skin or theme is selected again (today `skin: null`). Use `undo` or
-  `restore` only when read's `undoScope` says the whole UI is retained (it says `arrangement_only` now);
-- 2–3 options, each a real look, with a `preview` drawn from `piece-probe` shots (§9.4). Recommend a bundled skin
-  when one is close.
+Every look change asks first, follow-ups included. The card speaks only of **the look**:
+- **what changes**, in their words (the accent goes ink green, corners soften, the dock opens faster);
+- **what stays**: pages, widgets, data, and every part not named;
+- **whether it carries code**. If it does, Toast shows an approval dialog for it;
+- **how to go back**: "pick your earlier look again". Promise `undo` only when read's `undoScope` covers the whole UI
+  (it is `arrangement_only` today);
+- 2–3 options, recommended first. Each is a whole look with a `preview` drawn from probe shots (§9.4). When a shipped look
+  is close, offer it as the smallest option.
 
-Never apply, install a theme that is worn, or install a skin before the answer. A coordinator's yes is not theirs.
+Nothing is worn before the answer. A coordinator's yes is not the person's.
 
-### 9.3 Build
+### 9.3 Build the look
 
-**Bundled.** Pick from `schema.skins`: `classic` (light, stock), `nocturne` (dark), `sunset`, `pastel`,
-`sage`, `rpg`, `rpg-paper` and `office`. Nothing to build.
+- **Values.** Change a hue through the colour seeds with all seven tones. Hand-set brand values leave icons and soft text on
+  the old hue. Single values (corners, spacing, font) go beside the seeds and win over them. One look is one
+  scheme, light or dark; a person who wants both gets two looks, and the card says so.
+- **Motion values.** Animate state changes only. Hover takes 120–150 ms, open and unfold 160–200 ms. Sparkle and quest draw stay off unless
+  asked. Nothing bouncy, nothing over 300 ms, nothing idle. The app zeroes motion under the OS's reduced-motion
+  setting, and your own atoms check `ctx.theme.reducedMotion`. **Validation does not check durations or fonts**: you do.
+- **Images.** Use embedded data URLs only (png, webp or jpeg; ≤ 4096 px, ≤ 6 MB). Keep the worn parts underneath. Borrow a shipped
+  look's art by binding it. Dark art needs light text: the check refuses text that does not read.
+- **Code.** Fork a shipped look's source, office for 1–2 parts and rpg for many. Delete every copied part you don't redraw, and
+  keep `docks(lanes)` in a replaced app layout. Only one look with code is active at a time, so put everything
+  in it. Build in your tray, and install only after the card's yes, telling the person to look for the approval dialog.
 
-**A values**. Use `reference/look-recipes.md` §2 (examples in `examples/`) for exact shapes.
-- **Changing a hue: use `seeds.colour`, not tokens.** Seeds rebuild the whole family: fills, soft text,
-  borders, ramps and the `--brand-50…900` rungs. A few brand tokens leave the soft variants on the old hue:
-  icons and tints stay purple. `seeds.colour.chromatic` needs **all seven tones** (brand, danger, warning,
-  success, secondary, info, question); copy the base set's hues and change one.
-- **Tokens** are for single values beside the seeds: corners (`--radius-card`, `--radius-control`),
-  spacing rungs, `--type-family-sans`. Tokens next to seeds win.
-- A theme is one scheme. `seeds.from: classic` is light and `nocturne` is dark. A user who wants both
-  gets two themes, and the ask says so.
-- **Motion** (TASTE rule 5 for movement): animate state changes only. Hover takes 120–150 ms, open and unfold
-  160–200 ms, `ease-out` in and `ease-in` out. `sparkle` and `questDraw` are `"off"` unless asked. No
-  `bouncy` preset and nothing over 300 ms unless the user asks by name. Stock is slower (dock 340 ms,
-  unfold 650 ms, sparkle 2.6 s): leave stock alone unless the ask is about motion. The app already zeroes
-  every target under the OS's reduced-motion setting; your own atoms check `ctx.theme.reducedMotion`. **validate does not police durations or fonts**: you do.
+The exact shapes are in `reference/look-recipes.md`.
 
-**B images.** Use embedded data URLs only (png, webp or jpeg; ≤ 4096 px edge, ≤ 6 MB). `base: "$worn"` keeps the worn look's
-pieces. Frames slice the slot image (`frames.board: {slice, width}`), or borrow rpg's art with an asset
-binding (`schema.skin_images`). Dark art needs light text: the frame check refuses unreadable text.
+### 9.4 See it before it is worn
 
-**E code.** Follow `skin(op=guide)` and `skin(op=contract)`.
-- Fork `office` for 1–2 components and `rpg` for many. Delete every copied component you don't replace.
-- Only registered component names apply. One authored skin is active at a time, so put everything the user wants in one package.
-- An `appLayout` must call `docks(lanes)`, or the ask dock disappears.
-- `build` compiles; `install` waits for the user's code approval in Toast. Tell them to look for the dialog.
+Validate the whole look with the same arguments the apply will send, `points` included. Read the issues (legibility
+ratios and unknown names are refused with the reason) and the revision warnings. Validation draws nothing, so:
 
-### 9.4 Look before it is worn
-
-`interface(op=preview)` cannot show an unworn theme, and `validate` draws nothing. So:
-
-| What | How it is seen before wearing |
+| What | How you see it before wearing |
 |---|---|
-| Your widget under every bundled skin | `piece-probe.mjs` cases with `"skin": <id>` |
-| Your widget under an A theme's **tokens** | the same cases with `"look": "<theme>.json"`, which lays the package's tokens on `:root` over the skin |
-| An A theme's **values**, seeds included | `interface(op=skin_values, theme=<package>, core=true)` (or `file=`) builds what the package would give, without saving or wearing it: the core values and text-on-background contrast ratios. Older backends lack it; there, say "not seen" for the hue. |
-| An A theme's **seeds**, pictured | not seeable yet: the probe does not run the colour engine. Check the values above, and say the hue is not seen in a picture. |
-| Spreads under a look | `render(picture: true)` shows the **worn** look only |
-| B images, E skins | only after wearing: `apply`/`skin install` return a picture. That is why the ask comes first. |
-
-Validate with `interface(op=validate)` and the same arguments as the apply, `points` included. Read
-`issues` (legibility ratios and unpublished tokens are refused with the reason) and `revisionWarnings`.
+| Your widgets under a shipped look | `piece-probe.mjs`, case `"skin": <id>` |
+| Your widgets under the look's values | the same, with `"look": "<package>.json"` |
+| The seeded hue | not seen yet (the colour engine does not run headless). Say "not seen". |
+| Spreads on the canvas | `render(picture)`: the worn look only |
+| Images and code | only once worn. That is why the card comes first. |
 
 ### 9.5 Score the look
 
-Run the §7 rubric on probe shots of **the user's own pages and widgets** under the new look, not only on
-a stock screen. Then check three lines just for looks:
-- **L1 reach.** Every accent moved, including icons, soft text and tints. If anything kept the old hue, the
-  look was set by tokens where seeds were needed.
-- **L2 legibility.** The text on brand fills and on images reads at ≥ 4.5:1 (validate states ratios).
-- **L3 motion.** Each animated target is listed with its duration, and none is idle or looping.
+Run the §7 rubric on probe shots of **the person's own pages and widgets** under the look. Then add three lines:
+- **L1 reach:** every accent moved, icons, soft text and tints included.
+- **L2 legibility:** text on brand fills and on images is ≥ 4.5:1.
+- **L3 motion:** each moving thing is listed with its duration, and none is idle or looping.
 
-Report it as in §8, plus the level, the theme or skin id, and what was "not seen" (always the seeds hue and
-any B/E surface until it is worn).
+Report it as in §8, plus what the look holds and what was not seen.
+
+### 9.6 How a look maps to calls
+
+The code still splits a look across several fields and tools. This table is for you only; never put these
+names on the card.
+
+| Part of the look | Call | Notes |
+|---|---|---|
+| A shipped look, colours only | `interface apply patch: {skin: id}` | ids in `schema.skins` |
+| A shipped look with its parts and art | `patch: {theme: id, skin: id}` | rpg, office |
+| Values / motion / images (your own) | `apply {patch: {theme or skin: "user-…"}, themes: [package]}` | the package is `version: 2`: `seeds`, `tokens`, `motion`, `images`, `frames`. Use `patch.skin` when it is values only, so the worn parts stay, and `patch.theme` when it carries images or `base`. |
+| Borrowed art | the package's `requires.bindings` (asset, from a shipped look) | `schema.skin_images` |
+| Swapped stock controls | the package's `components` | controlCheck, controlButton, … appMark |
+| Redrawn parts (code) | `skin op=fork → build → install` | needs code approval. Roll back with `skin op=rollback` / `reset`. |
+| Page, menu or window with it | the same `apply`: `pages`, `add_navigation`, `windows` | |
+| Validate first | `interface op=validate`, same arguments | `themes` too |
+| Revise an installed one | `read_theme` → `update_theme` / `theme_revisions` | |
+| Shipped look values for probes | the §9.4 `skin_values(theme=, core=true)` row | fallback: `skin-tokens.css` |
