@@ -173,7 +173,7 @@ not their type scale.
 - **Frame first** (T1): a real window bar with icon, title (13 px, weight 600), pin and close. Under it, one toolbar row. Under that, the content.
 - **Two sizes** (T3): 13 px body and 12 px meta. Weights 400 and 500 for names; 600 only for the window title. No hero figures and no 22–40 px titles.
   `font: inherit`; colours are `var(--text-neutral, …)`, `var(--bg-neutral-base, …)` and `var(--text-brand, …)`.
-- **No chevrons** (T2): no chevrons, carets or arrow glyphs. Icons are fine; use clear icons from the app's set, and a word only where no icon reads.
+- **Folds and icons** (T2): fold sparingly (open by default, one level); icons and controls sit in line with their text, on the baseline, at the text's size.
 - **Less text** (T4): 877k, 1.5M. Exact values go in `title=`, and units are stated once in the header, not on every row.
 - **No drama** (T5): no glows, share bars, delta chips or badges unless they carry the decision. One colour accent.
 - **One surface** (T6): the window is the card. No inner bordered card, no header card.

@@ -5,7 +5,7 @@ This page is the one-screen order, with the file that holds the detail for each 
 
 | # | Step | Done when | Detail |
 |---|---|---|---|
-| 0 | Read the taste rules | Frame first; no chevrons (icons fine); 13/12 px in the app font; less text; no drama; one surface; keep what works | `TASTE.md` |
+| 0 | Read the taste rules | Frame first; fold sparingly, icons in line with text; 13/12 px in the app font; less text; no drama; one surface; keep what works | `TASTE.md` |
 | 1 | Echo the ask | Every point of the request is a numbered checkpoint | `failure-audit.md` fix 5 |
 | 2 | Ask, or state the default | One AskUserQuestion card (purpose, place, look as 2–3 references, data), or defaults written down | `see-it-loop.md` §3 |
 | 3 | Reuse first | Spread found by intent (widget, dashboard, tracker, to-do, schedule). Code only for the rest, with the reason | `spread-recipes.md`, `spreads-audit.md` |

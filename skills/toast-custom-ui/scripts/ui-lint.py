@@ -104,9 +104,9 @@ def lint(path: Path):
     if len(w600) > 1:
         add("T3", "minor", w600[1], f"{len(w600)} rules at weight 600 — only the window title takes 600")
 
-    # T2: no chevrons; icons are fine
+    # T2: fold sparingly; icons in line with text
     for m in CHEVRON.finditer(text):
-        add("T2", "major", m.start(), f"chevron/caret glyph '{m.group(0)[:20]}' — remove it; use a clear icon from the app's set, or a word if no icon reads")
+        add("T2", "minor", m.start(), f"fold/arrow glyph '{m.group(0)[:20]}' — fold sparingly: is this fold needed, and does the glyph sit in line with its text?")
     for m in GLYPH_BUTTON_NAMES.finditer(text):
         add("T2", "minor", m.start(), f"'{m.group(1)}' control is a grip/kebab/dots glyph — use a clear icon or put it in the right-click menu")
 

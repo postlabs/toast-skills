@@ -11,10 +11,12 @@ What people keep finding wrong in agent-built UI:
 1. **Structure first: the frame, then the content.** A real window bar comes first: icon,
    title, pin, close. Under it, one toolbar. Under that, the content. Get the header right
    before polishing anything else.
-2. **No chevrons.** No chevrons, carets or arrow glyphs: not on rows, buttons, folds or links.
-   This is about chevrons only. Icons are fine and often better than words; use clear,
-   familiar icons from the app's own set wherever they read at a glance, and a word only where
-   no icon would.
+2. **Fold sparingly; keep icons and controls in line with the text.** Show content open by
+   default. Fold only what is long and secondary, and then one level, never fold inside fold;
+   a page full of expand toggles is the failure. Icons are welcome: set each icon and control
+   on the same line as the text it belongs to, on its baseline, at the text's size, in a
+   consistent position (leading icon before the label, actions at the row's end). Nothing
+   floats above, below or off to the side of its text.
 3. **Two type sizes.** 13 px for body text and 12 px for meta. Weight 400, 500 for names, and
    600 only for the window title. Use the worn look's font (Pretendard by default) by inheriting it: a
    piece's shadow root inherits the app's font and its token CSS variables
