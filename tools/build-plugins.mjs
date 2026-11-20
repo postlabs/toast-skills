@@ -66,8 +66,16 @@ for (const s of skills) {
   const head = fs.readFileSync(path.join(skillsDir, s, "SKILL.md"), "utf8").slice(0, 2000);
   const name = /^---[\s\S]*?^name:\s*["']?([^"'\n]+)/m.exec(head)?.[1]?.trim();
   if (name !== s) warn(`skills/${s}/SKILL.md: frontmatter name "${name}" differs from its folder (Agent Skills requires a match)`);
-  const size = fs.statSync(path.join(skillsDir, s, "SKILL.md")).size;
-  if (size > 24000) warn(`skills/${s}/SKILL.md is ${size} bytes; agy loads only the first 24000`);
+  // agy 1.5.9, measured (agy-skill-limit.md): an explicit /<skill> load keeps the first 24,000 bytes
+  // of the body after the frontmatter and drops the rest behind "<truncated N bytes>". A skill the
+  // agent picks from its list is read with read_file instead, which pages at 46,080 bytes and can
+  // read on. Codex 0.164.0 loads a 60 KB SKILL.md whole.
+  const raw = fs.readFileSync(path.join(skillsDir, s, "SKILL.md"));
+  const text = raw.toString("utf8");
+  const close = text.startsWith("---") ? text.indexOf("\n---", 3) : -1;
+  const fmEnd = close < 0 ? 0 : text.indexOf("\n", close + 4) + 1 || text.length;
+  const body = raw.length - Buffer.byteLength(text.slice(0, fmEnd));
+  if (body > 24000) warn(`skills/${s}/SKILL.md body is ${body} bytes; agy's /${s} load keeps only the first 24000 (the rest is cut)`);
 }
 
 const mcpSrc = readJson("mcp.json", true);
