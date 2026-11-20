@@ -16,7 +16,8 @@
 // "unavailable": there is nothing on a screen to picture; use piece-probe.mjs (headless) instead.
 // Wallpaper windows are pictured from a hidden copy of their page (the app's own rule), so they show
 // the layout, not the live desktop around them.
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 
 const args = process.argv.slice(2);
@@ -25,8 +26,20 @@ const outDir = resolve(outAt >= 0 ? args[outAt + 1] : 'shots');
 const rest = args.filter((a, i) => i !== outAt && i !== outAt + 1);
 const [what, ...ids] = rest;
 const API = (process.env.PEEL_BASE_URL || 'http://127.0.0.1:18587/api/v1').replace(/\/$/, '');
-// Loopback, no credential: the same as peel's own calls (peel/mcp/core.py sends only x-peel-pid).
-const headers = { 'content-type': 'application/json', 'x-peel-pid': String(process.ppid || process.pid) };
+// The backend's local API token: TOAST_API_TOKEN, else the api-token file in Toast's data folder.
+// Older backends have none and ignore the header.
+function apiToken() {
+  if (process.env.TOAST_API_TOKEN) return process.env.TOAST_API_TOKEN.trim();
+  const home = homedir();
+  const dir = process.env.TOAST_DATA_DIR || (process.platform === 'win32'
+    ? join(process.env.APPDATA || join(home, 'AppData', 'Roaming'), 'Toast')
+    : process.platform === 'darwin' ? join(home, 'Library', 'Application Support', 'Toast')
+    : join(process.env.XDG_DATA_HOME || join(home, '.local', 'share'), 'Toast'));
+  try { return readFileSync(join(dir, 'api-token'), 'ascii').trim(); } catch { return ''; }
+}
+const token = apiToken();
+const headers = { 'content-type': 'application/json', 'x-peel-pid': String(process.ppid || process.pid),
+  ...(token ? { 'x-toast-token': token } : {}) };
 mkdirSync(outDir, { recursive: true });
 const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15);
 const say = (o) => console.log(JSON.stringify(o));
