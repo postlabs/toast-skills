@@ -112,6 +112,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
 
 ## 5. Build: frame, then tokens, then content
 
+- **Frame.** Open or change one window with `patch.add_windows: [{id, page, kind, ...}]`; on an id that exists it keeps the fields you leave out, so flipping `kind` or `on_top` never moves it. `remove_windows` closes ids. Never resend the whole `windows` list for one window.
 - **Frame.** Choose the window kind (`card`, `pinned`, `wallpaper`, `normal`). Card windows get a
   real bar (icon, title, pin, close). Use it, and never ship a grip strip; if the build lacks it, say so. Build and check the bar before any row.
 - **Block kind decides whether the user must approve before anything shows.** A `kind: piece` block runs trusted
@@ -121,7 +122,7 @@ Write three lines in your plan, each a reference and *what to borrow* from it:
   it runs without approval (the backend approves a family with no `hosts` by itself). This is not yet proven on a desk card, so capture it.
   If it must be a piece, say in the first line of the result that their approval is needed, and score the
   headless `scripts/piece-probe.mjs` shots in the meantime.
-- **Tokens.** Colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
+- **Tokens.** Read the worn values with `interface(op=skin_values, prefix="--text-")` (or `GET /api/v1/interface/skin-values`); it also names the font. Start with the core set and stay in it: colours are `var(--bg-neutral-base, …)`, `var(--text-neutral, …)`, `var(--text-brand, …)`,
   `var(--border-neutral, …)`. Hex appears only as a `var()` fallback, and the fallbacks must work on light *and* dark.
   In a sealed frame, copy `ctx.theme.tokens` onto `el` (`el.style.setProperty(k, v)`).
 - **Sealed atom rules** (from source; full list in `reference/references.md` §1):
@@ -144,11 +145,11 @@ through the Toast backend (peel tools or its local HTTP API at `PEEL_BASE_URL`, 
 
 | Surface | Capture |
 |---|---|
-| Desk window (card, pinned, wallpaper) | `interface(op=apply)` already returns `desk_pictures` / `desk_snapshots` for every window it touched. To look again without a change: `node scripts/see-it.mjs desk [window ids]`. It shows each window's own page as it draws now, even when covered; the ids are `config.windows[].id`. A wallpaper is pictured from a copy of its page. |
-| App window | `interface(op=preview)` or `node scripts/see-it.mjs app`. It shows whatever page the window shows now (`page=` is ignored), so check `snapshot_state.page` / `page` before scoring. To see your page, put it in a desk window and use `see-it.mjs desk`. |
+| Desk window (card, pinned, wallpaper) | `interface(op=apply)` already returns a small `desk_pictures` JPEG for every window it touched. To score it, call `interface(op=preview, windows=[id], full=true)`: a PNG at the window's own device pixels, with 1 px borders and type sizes intact (older backends: `node scripts/see-it.mjs desk [ids]`). It shows each window's own page as it draws now, even when covered; the ids are `config.windows[].id`. A wallpaper is pictured from a copy of its page. |
+| App window | `interface(op=preview, windows=["app"], full=true)` (older backends: `interface(op=preview)` or `node scripts/see-it.mjs app`). It shows whatever page the window shows now (`page=` is ignored), so check `snapshot_state.page` / `page` before scoring. To see your page, put it in a desk window and use `see-it.mjs desk`. |
 | App-window piece, any skin or state | `node scripts/piece-probe.mjs cases.json` draws it headless (Edge or Chrome), with the skins' tokens (`reference/skin-tokens.css`) and Pretendard served by the backend. Skins: `classic` (light), `nocturne` (dark), `office`, `pastel`, `sage`, `sunset`, `rpg`, `rpg-paper`; there is no `default`. If its report says `font: fallback`, the backend did not answer: do not score R3 from it. |
-| Canvas pane (spread) | `render(..., picture: true)` |
-| Sealed atom draft | The canvas picture wrongly says "not installed" (the capture has no chat id). Load the frame headless with `scripts/probe_frame.mjs <frame url> <png> <json> [dark]` and post your own data. The frame URL is the backend's `http://atoms.localhost:<port>/api/v1/sealed/frame?jar=…&family=…&atom=…&chat=…`. |
+| Canvas pane (spread) | `render(..., picture: true)`. The receipt's `instance_keys` shows what each instance read: if your data's keys are missing, the binding is wrong. A canvas pane adds a card frame a desk window does not, so judge a window only by its desk picture. |
+| Sealed atom draft | `render(..., picture: true)` draws this conversation's draft families. Older backends say "not installed"; there, load the frame headless with `scripts/probe_frame.mjs <frame url> <png> <json> [dark]` and post your own data. The frame URL is the backend's `http://atoms.localhost:<port>/api/v1/sealed/frame?jar=…&family=…&atom=…&chat=…`. |
 | No desktop app (a backend on its own) | Nothing is on a screen, so `see-it.mjs` answers `unavailable`. Score the `piece-probe.mjs` and `render` pictures, and say in the result that the live window is not seen. |
 
 Capture these states: default, hover or selected, 1 / 3 / 8+ items, the longest real name, empty, loading and error,
