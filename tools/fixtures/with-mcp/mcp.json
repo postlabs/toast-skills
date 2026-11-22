@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "toast-local": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${PLUGIN_ROOT}/bin/serve.mjs",
+        "--data",
+        "${PLUGIN_DATA}/toast"
+      ],
+      "env": {
+        "TOAST_CONFIG": "${PLUGIN_ROOT}/config.json"
+      }
+    },
+    "peel": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:18587/api/v1/peel/mcp/"
+    }
+  }
+}

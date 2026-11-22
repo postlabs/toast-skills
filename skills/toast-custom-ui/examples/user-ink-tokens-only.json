@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "id": "user-ink-tokens-only",
+  "name": "Ink (tokens only: the trap)",
+  "tokens": {
+    "--bg-brand": "#2f5d50",
+    "--ramp-brand": "#2f5d50, #1f3f36",
+    "--text-brand-on": "#ffffff",
+    "--text-brand": "#3f7a69",
+    "--border-brand": "#3f7a69"
+  }
+}

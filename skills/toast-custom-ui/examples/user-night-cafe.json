@@ -1,0 +1,64 @@
+{
+  "version": 2,
+  "id": "user-night-cafe",
+  "name": "밤 카페",
+  "seeds": {
+    "from": "nocturne",
+    "colour": {
+      "chromatic": [
+        { "key": "brand", "hue": 62, "depth": 0 },
+        { "key": "danger", "hue": 25, "depth": 0.2 },
+        { "key": "warning", "hue": 85, "depth": 0.05 },
+        { "key": "success", "hue": 155, "depth": 0.2 },
+        { "key": "secondary", "hue": 190, "depth": 0.2 },
+        { "key": "info", "hue": 225, "depth": 0.2 },
+        { "key": "question", "hue": 58, "depth": 0.1 }
+      ]
+    }
+  },
+  "tokens": {
+    "--neutral-50": "#f6ede4",
+    "--neutral-100": "#d6cbc0",
+    "--neutral-200": "#b9ada2",
+    "--neutral-300": "#9d9187",
+    "--neutral-400": "#82766c",
+    "--neutral-500": "#685d54",
+    "--neutral-600": "#50463e",
+    "--neutral-700": "#3a312a",
+    "--neutral-800": "#251e19",
+    "--neutral-900": "#120e0b",
+    "--bg-neutral-page": "#14100d",
+    "--bg-neutral-base": "#1e1814",
+    "--bg-neutral-raised": "#19140f",
+    "--bg-neutral-sunken": "#0f0c09",
+    "--border-neutral": "#352c25",
+    "--border-neutral-rim": "#4a3f36",
+    "--border-neutral-guide": "#7d6e62",
+    "--border-neutral-rail": "color-mix(in srgb, #f1e7dc 22%, transparent)",
+    "--border-neutral-veil": "color-mix(in srgb, #43382f 14%, transparent)",
+    "--bg-neutral-veil": "color-mix(in srgb, #43382f 30%, transparent)",
+    "--bg-neutral-veil-hover": "color-mix(in srgb, #43382f 50%, transparent)",
+    "--bg-neutral-veil-active": "color-mix(in srgb, #43382f 70%, transparent)",
+    "--bg-neutral-glow": "rgba(58, 49, 42, 0.28)",
+    "--ramp-neutral-tint-edge": "rgba(46, 36, 29, 0.8), rgba(130, 118, 108, 0.3)",
+    "--shadow-neutral-sheen": "rgba(250, 237, 222, 0.1)",
+    "--text-neutral": "#f1e7dc",
+    "--text-neutral-secondary": "#d2c4b6",
+    "--text-neutral-tertiary": "#b2a395",
+    "--text-neutral-muted": "#ab9c8e",
+    "--text-neutral-soft": "#8a7b6e",
+    "--text-neutral-inverse": "#1e1814",
+    "--radius-card": "18px",
+    "--radius-panel": "16px",
+    "--radius-control": "10px",
+    "--radius-field": "10px"
+  },
+  "motion": {
+    "hover": { "preset": "snappy", "durationMs": 150, "easing": "ease-out" },
+    "dockOpen": { "preset": "default", "durationMs": 200, "easing": "ease-out" },
+    "dockClose": { "preset": "default", "durationMs": 160, "easing": "ease-in" },
+    "scrollUnfold": { "preset": "default", "durationMs": 180, "easing": "ease-out" },
+    "sparkle": "off",
+    "questDraw": "off"
+  }
+}

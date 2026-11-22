@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "id": "user-ink-calm",
+  "name": "Ink calm",
+  "seeds": {
+    "from": "classic",
+    "colour": {
+      "chromatic": [
+        { "key": "brand", "hue": 170, "depth": 0 },
+        { "key": "danger", "hue": 29, "depth": 0.2 },
+        { "key": "warning", "hue": 92, "depth": 0.05 },
+        { "key": "success", "hue": 153, "depth": 0.2 },
+        { "key": "secondary", "hue": 184, "depth": 0.2 },
+        { "key": "info", "hue": 218, "depth": 0.2 },
+        { "key": "question", "hue": 60, "depth": 0.1 }
+      ]
+    }
+  },
+  "tokens": {
+    "--radius-card": "10px",
+    "--radius-control": "6px"
+  },
+  "motion": {
+    "hover": { "preset": "snappy", "durationMs": 150, "easing": "ease-out" },
+    "dockOpen": { "preset": "default", "durationMs": 200, "easing": "ease-out" },
+    "dockClose": { "preset": "default", "durationMs": 160, "easing": "ease-in" },
+    "scrollUnfold": { "preset": "default", "durationMs": 180, "easing": "ease-out" },
+    "sparkle": "off",
+    "questDraw": "off"
+  }
+}
