@@ -6,7 +6,7 @@ Reports:
   blank      one flat colour (capture failed / nothing painted) -> never score it
   frame      transparent margin (black edge) an OS-level window capture leaves around a card
   surfaces   fill bands top to bottom (dominant colour per row, merged) -> more than one
-             body fill under the window bar is a card inside a card (TASTE 6 / R5)
+             body fill under the window bar is a card inside a card (one surface)
   insets     where the fill changes walking in from the left edge at mid-height -> a panel
              inset inside the window shows as an extra edge (R5/R6)
   right_edges  right ends of text runs per row band -> numbers that should share one

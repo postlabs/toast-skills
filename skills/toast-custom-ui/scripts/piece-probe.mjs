@@ -7,10 +7,10 @@
 //   node piece-probe.mjs <cases.json>
 //
 // cases.json:
-// { "atom": "<path to atom.js>", "export": "devtreelist",
-//   "outDir": "shots/probe", "title": "Dev Tree",
+// { "atom": "<path to atom.js>", "export": "filelist",
+//   "outDir": "shots/probe", "title": "File tree",
 //   "values": optional CSS file of the shipped looks' values (default: ../reference/look-values.css),
-//   "cases": [ { "name": "dark-default", "look": "nocturne", "data": "fixtures/devtree.json",
+//   "cases": [ { "name": "dark-default", "look": "nocturne", "data": "fixtures/files.json",
 //                "frame": "card" | "page", "width": 560, "height": 880,
 //                "type": "zzz" (typed into the first input), "click": "Collapse" (button text),
 //                "tokens": { "--text-neutral": "#000" } (ctx.theme.tokens only) } ] }

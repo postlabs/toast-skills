@@ -1,9 +1,9 @@
-"""ui-lint: check a piece / sealed atom / page source against TASTE.md and the see-it rubric.
+"""ui-lint: check a piece / sealed atom / page source against the bar in SKILL.md.
 
     python ui-lint.py <atom.js | folder> [--json]
 
 Finds what code can show before any picture is taken. Each finding has a rule (T1-T7 =
-TASTE.md rules, R* = see-it-loop.md rubric), a severity (major | minor | info), a line and
+type, colour and surface rules, R* = critique checks), a severity (major | minor | info), a line and
 the evidence. Exit code 1 when any major is found, so it can gate a ship.
 
 What it cannot see (score those on the capture): real alignment, contrast on the actual

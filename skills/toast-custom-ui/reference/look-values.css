@@ -1,4 +1,4 @@
-/* The 8 shipped looks' values, generated from src/frontend/src/styles/tokens.base-vocab.css @ fbdb549ae.
+/* The 8 shipped looks' values, generated from src/frontend/src/styles/tokens.base-vocab.css.
    Fallback for piece-probe.mjs when the backend does not answer interface(op=skin_values).
    [data-skin=...] mirrors the attribute the app itself puts on <html>; it is not a kind the person picks. */
 [data-skin="nocturne"] {

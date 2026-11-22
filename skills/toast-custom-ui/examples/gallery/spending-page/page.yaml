@@ -1,0 +1,47 @@
+title: 이번 달 지출
+width: reading
+blocks:
+- layout:
+  - spread: postlab.sp-3baab7778a594bfd80e44fbceb28bde4
+    knobs:
+      layout: stacked
+    slots:
+      title: title
+      eyebrow: eyebrow
+      description: summary
+      image: null
+      meta: null
+      caption: null
+      url: null
+      actionLabel: null
+  value: value.json
+- title: 최근 지출
+  layout:
+  - spread: postlab.sp-bbdecacc140245f883afdc536c830d06
+    knobs:
+      details: none
+    slots:
+      items: latest
+      itemTitle: title
+      image: image
+      meta: meta
+      value: value
+      url: null
+      description: null
+      status: null
+      tone: null
+      icon: null
+      title: null
+  - spread: postlab.sp-574545dce8fb44c4b3a8a1792efe6fb5
+    slots:
+      title: moreTitle
+      children:
+      - spread: postlab.sp-7b00a56d188d462f8f4db1019f0f3421
+        slots:
+          items: more
+          title: title
+          image: image
+          meta: meta
+          trailing: value
+          time: null
+  value: value.json

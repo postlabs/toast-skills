@@ -11,7 +11,7 @@ A **look** is one package of layers. It fills the layers it needs, and every lay
 | interface changes | a page, a menu entry or a window that comes with it |
 
 A look is packaging, not a new system. Each layer is built with today's calls (§6). The look names the bundle,
-is asked for on one card, and goes back as one.
+is asked for once, in plain words with pictures, and goes back as one.
 
 Everything here was checked with `interface(op=validate)` on a test PC (interface rev 22, nothing
 worn). Nothing was applied or installed.
@@ -66,7 +66,7 @@ worn). Nothing was applied or installed.
 Worth setting (the full list is in `schema theme_v2.values`):
 - **Corners:** `--radius-card`, `--radius-panel`, `--radius-control`, `--radius-field`, `--radius-chip`. These are lengths, so `"soft"` is refused.
 - **Space:** `--gap-{row,group,section}`, `--pad-{card,panel}`.
-- **Type:** `--type-family-sans`, `--type-family-mono`. Leave `--type-size-*` alone: TASTE rule 3's sizes come from them.
+- **Type:** `--type-family-sans`, `--type-family-mono`. Leave `--type-size-*` alone: the two type sizes in SKILL.md come from them.
 - **The brand pair**, only when you must set it by hand: `--bg-brand`, `--ramp-brand` and `--text-brand-on`, all three together. Any you leave out
   come from the look underneath, and the legibility check compares your text with *its* ramp
   (it refused `#35604f` on `ramp-brand start #7f30ff`: 1.28:1).
@@ -142,11 +142,11 @@ Things that move, with their values in the stock look (`frontend/src/features/in
 - Only registered part names apply (`skin(op=contract)` lists them).
 - An app layout you replace must call `docks(lanes)`.
 - Only one look with code is active at a time, so put every redrawn part in it.
-- Build in your tray. Install only after the card's yes; it asks the person to approve the code in a Toast dialog.
+- Build in your tray. Install only after the person's yes; it asks the person to approve the code in a Toast dialog.
 
-## 6. Packaging: how a look maps to calls, until the look API lands (i-bd057f0db51e)
+## 6. Packaging: how a look maps to calls, until the look API lands
 
-Today a look is spread across fields whose names still say "theme" and "skin". Those names are for you only: the card, the result and the person
+Today a look is spread across fields whose names still say "theme" and "skin". Those names are for you only: the ask, the result and the person
 never see them. When the look API lands, this table collapses into one call.
 
 | Layer / step | Today's call |
@@ -171,7 +171,7 @@ apply    {same arguments}
 
 Another session's write moves the revision; a stale one is refused with a 409.
 
-**One undo.** Read `undoScope` live, at the time you write the card. With `whole_ui`, `interface undo` reverts the write.
+**One undo.** Read `undoScope` live, at the time you write the ask. With `whole_ui`, `interface undo` reverts the write.
 Otherwise the way back is "pick the earlier look again": the `theme`/`skin` values from that read, plus `skin op=rollback` if
 the look carried code.
 
@@ -183,6 +183,6 @@ the look carried code.
 |---|---|---|
 | A widget under a shipped look | `piece-probe` case `"look": "<name>"` | yes |
 | A widget under your look's values | `piece-probe` case `"look": "<package>.json"`, `"under": "<shipped look>"` | yes, for the values it sets |
-| Your look's seeded hue | an approximation: hand-set the accent you expect in a probe case | approximate. Label it "approximate colour" on the card. Platform ask: a preview that draws an unworn package. |
+| Your look's seeded hue | an approximation: hand-set the accent you expect in a probe case | approximate. Label it "approximate colour" in the ask. Platform ask: a preview that draws an unworn package. |
 | Spreads on the canvas | `render(picture)` | the worn look only |
 | Images and code layers | a frame sheet: the art and the parts' key frames side by side in one PNG | the art, not the app. Label it "not yet worn"; the app picture comes after the yes. |

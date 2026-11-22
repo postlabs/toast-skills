@@ -1,11 +1,8 @@
 # Outside libraries and references for widgets, pages and mini-apps
 
-**Bottom line.** Every library below was loaded inside a real sealed frame on this PC
-(18 of 18 pins load, light and dark).
-The pin lines in §2 are the probe family's own `js_deps` and `styles`, so you can copy them. No session had ever used `js_deps` before
-this one: the install-wide store `{user_data}/.state/jar-deps` did not exist until the probe ran.
-Sessions have been hand-drawing SVG icons and system-ui text when a pinned icon set
-and font were available.
+**Bottom line.** Every library below was loaded inside a real sealed frame (18 of 18 pins load, light and dark).
+The pin lines in §2 can be copied as they are. Use a pinned icon set and font instead of hand-drawn SVG icons and
+system-ui text.
 
 ---
 
@@ -17,7 +14,7 @@ Sources: `backend/app/spreads/sealed.py`, `backend/app/artifacts/api/sealed.py`,
 
 | Rule | What it means for a session |
 |---|---|
-| `js_deps` is a **map** `import-name: name@x.y.z/path/to/file` | A list (`js_deps: []`, as in the doctor `specbars` draft) fails validation. Exact versions only, never `^` or `latest`. |
+| `js_deps` is a **map** `import-name: name@x.y.z/path/to/file` | A list fails validation. Exact versions only, never `^` or `latest`. |
 | Import name must match `^(@scope/)?name$` | `htm/preact` and `@floating-ui/utils/dom` are refused as keys. Use `htm-preact`, `lucide-umd` and similar. |
 | The frame gets an **import map**: name → `/api/v1/sealed/d/<pin>/<file>` | The file must be **ESM** (or a UMD you import for its side effect, see below). Every bare import inside it needs its own `js_deps` key (chart.js → `@kurkle/color`; floating-ui/dom → `@floating-ui/core`). |
 | `/sealed/d/` serves **any file in the package** | Relative imports and CSS `url()` fonts inside a package work. Extensionless relative imports (`./utils`, which dayjs's `esm/` uses) 404. |
@@ -36,12 +33,12 @@ so it falls back to `globalThis`. Then read `globalThis.Motion`, `globalThis.luc
 `globalThis.dayjs`. This makes single-file UMD builds usable when the ESM build is a tree
 of bare or extensionless imports.
 
-### Canvas preview trap (found while testing, belongs to the failure audit)
+### Canvas preview trap
 `render(picture: true)` of a **tray-draft** sealed family shows "이 디자인이 설치되어 있지 않아요" ("this design isn't installed").
 Cause: `foundation/atoms/sealed/atom.tsx:60` reads the conversation id from the closest
 `[data-chat-id]`. The picture capture has none, so `chat=''` makes the consent call look only in the library
 and it returns 404 (`/v1/sealed-consent` → 200 with `chat=<id>`, 404 without; checked with curl).
-So the "blank / not installed until finalize" seen on Dev Tree is a capture bug, not a family bug.
+So a blank or "not installed" draft picture before finalize is a capture bug, not a family bug.
 **Workaround that works today:** load the frame headless and screenshot it with
 `scripts/probe_frame.mjs <frame url> <png> <json> [dark]`. Frame URL:
 `http://atoms.localhost:<API_PORT>/api/v1/sealed/frame?jar=<handle.set>&family=<f>&atom=<a>&chat=<PEEL_CHAT_SESSION>`.
@@ -75,7 +72,7 @@ styles:
 - `@tailwindcss/browser@4.3.5/dist/index.global.js` (js_deps, side-effect import) loads and
   compiles classes at runtime. **Frame only.** It costs 280 KB and a startup pass, so prefer plain CSS.
 
-### Icons (TASTE T2: only search, close, pin, folder, file, plus content icons the user asked for)
+### Icons (only search, close, pin, folder, file, plus content icons the user asked for)
 ```yaml
 js_deps:
   lucide-umd: lucide@1.76.0/dist/umd/lucide.min.js   # import 'lucide-umd'; lucide.createElement(lucide.Calendar)
@@ -111,7 +108,7 @@ reducedMotion). **Dense dashboards, heatmaps, treemaps, calendars or geo** use E
 screenshots. Follow the `dataviz` skill for colour and marks. Avoid `apexcharts@8.9.1`, which makes unmapped
 template imports (`apexcharts/${module}`), and `frappe-charts`, which has had no release in years.
 
-### Motion (TASTE T5: no drama; default is no motion)
+### Motion (no drama; default is no motion)
 Use motion only for state changes (open, reorder, refresh), 150–200 ms opacity or position changes, and skip it when `ctx.theme.reducedMotion`.
 Count-up, confetti and hand-drawn highlights fail T5 in ordinary UI: they are proven to load, but use them only when the user asks for them.
 ```yaml
@@ -163,9 +160,9 @@ Use these to borrow **decisions** (density, type scale, radius, accent use, moti
 
 ---
 
-## 4. Per-surface patterns (scored against TASTE.md)
+## 4. Per-surface patterns (held to the bar in SKILL.md)
 
-TASTE.md wins wherever it disagrees with a reference. The external guides use more type sizes
+The bar in SKILL.md wins wherever it disagrees with a reference. The external guides use more type sizes
 and more chrome than the user wants. Take their *structure* (one job, few targets, designed sizes),
 not their type scale.
 
@@ -213,7 +210,7 @@ the window. Light and dark both checked.
 3. **Check the spreads library first** (`find(op=spreads)` by form). Build a sealed atom only for the part no spread covers.
 4. **Make a mood board of 2–3 refs** from §3. Add one more only if the user named a vibe. For each, write
    *what to borrow* in one line, for example "Raycast: list rows 34 px, muted accessories; Linear:
-   low-chroma neutrals; Apple widget: one job". Then check each against TASTE.md: a reference never overrides it. Put the three lines in your plan or result so
+   low-chroma neutrals; Apple widget: one job". Then check each against the bar in SKILL.md: a reference never overrides it. Put the three lines in your plan or result so
    a reviewer can check the build against them.
 5. **Ask, or decide.** Ask with AskUserQuestion when the piece is personal or decorative
    (widget look, wallpaper, the app's look), when the user named a vibe that two refs read differently,

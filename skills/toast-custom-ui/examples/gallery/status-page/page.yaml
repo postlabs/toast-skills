@@ -1,0 +1,10 @@
+title: 이사 준비
+width: reading
+blocks:
+  - surface: none
+    spread: postlab.sp-f7539ca9988f41b79ae68e4099b2035a
+    slots: {label: lead.label, detail: lead.detail}
+    knobs: {icon: bell, to: ask}
+    value: value.json
+  - spread: postlab.sp-816752b3e5ee4bb2a7656ae160c4e659
+    value: value.json

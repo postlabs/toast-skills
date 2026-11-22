@@ -5,7 +5,7 @@ pop-outs and mini apps that come out right the first time.
 
 | Skill | What it does |
 |---|---|
-| `toast-custom-ui` | The method for any UI a person looks at in Toast. Echo the ask, then ask or state the defaults. Reuse a spread recipe and pick a reference look. Build the window frame first, then capture the real surface and score it against a checklist before saying done. |
+| `toast-custom-ui` | Design for anything a person looks at in Toast: pages, dashboards, desk widgets, sealed drawings and looks. Decide the layout, pick a finished picture to beat, build with real data, then picture the real surface and critique it against that picture until it holds up. |
 
 ## Install
 
@@ -36,8 +36,10 @@ The skill needs only a running Toast backend: no source checkout, no app window 
 ```
 plugin.json              the one source; edit this
 skills/toast-custom-ui/
-  SKILL.md               the procedure
-  reference/             taste rules, spread recipes, outside references, the see-it loop, capture routes, looks in detail, look recipes, the shipped looks' values
+  SKILL.md               the bar, the method, the generated defaults to catch
+  reference/             page, widget, sealed drawings, layout reasoning, capture routes, outside libraries, looks
+  examples/gallery/      finished pages: picture, layout note, page patch and data
+  examples/looks/        look packages
   scripts/               see-it.mjs (capture through the backend), shot-check.py, ui-lint.py, probes
 tools/build-plugins.mjs  writes .claude-plugin/, .codex-plugin/, gemini-extension.json; --check for CI
 ```

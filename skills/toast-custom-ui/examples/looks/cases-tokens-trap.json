@@ -1,7 +1,7 @@
 {
   "atom": "<your widget>/atom.js",
   "export": "<atom name>",
-  "title": "Dev Tree",
+  "title": "File tree",
   "outDir": "shots",
   "cases": [
     { "name": "look-trap-tokens-only-light", "look": "user-ink-tokens-only.json", "under": "classic", "data": "<fixture>.json", "frame": "card", "width": 560, "height": 600 },

@@ -1,4 +1,4 @@
-# Capture: how to picture each surface (from toast-custom-ui SKILL §6)
+# Capture: how to picture each surface
 
 Every capture goes through the Toast backend (peel tools or its local HTTP API at `PEEL_BASE_URL`, default
 `http://127.0.0.1:18587/api/v1`): no Toast source checkout, no OS screenshot, nothing changed. Every `/api/` call

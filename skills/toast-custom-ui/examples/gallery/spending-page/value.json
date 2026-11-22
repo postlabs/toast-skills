@@ -1,0 +1,107 @@
+{
+ "eyebrow": "신한카드 · 11월 1일–20일",
+ "title": "11월에 84만 원 썼어요, 지난달보다 12만 원 적어요",
+ "summary": "가장 큰 지출: 겨울 패딩 21만 9천 원",
+ "currency": "₩",
+ "monthsTitle": "6개월 동안",
+ "months": [
+  {
+   "label": "6월",
+   "segments": [
+    {
+     "key": "past",
+     "value": 1020000
+    }
+   ]
+  },
+  {
+   "label": "7월",
+   "segments": [
+    {
+     "key": "past",
+     "value": 1180000
+    }
+   ]
+  },
+  {
+   "label": "8월",
+   "segments": [
+    {
+     "key": "past",
+     "value": 910000
+    }
+   ]
+  },
+  {
+   "label": "9월",
+   "segments": [
+    {
+     "key": "past",
+     "value": 990000
+    }
+   ]
+  },
+  {
+   "label": "10월",
+   "segments": [
+    {
+     "key": "past",
+     "value": 962000
+    }
+   ]
+  },
+  {
+   "label": "11월",
+   "segments": [
+    {
+     "key": "now",
+     "value": 841000
+    }
+   ]
+  }
+ ],
+ "latestTitle": "최근 지출",
+ "latest": [
+  {
+   "title": "겨울 패딩",
+   "image": "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&q=80",
+   "meta": "무신사 · 11/19",
+   "value": "21.9만"
+  },
+  {
+   "title": "주말 장보기",
+   "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80",
+   "meta": "이마트 · 11/16",
+   "value": "8.7만"
+  },
+  {
+   "title": "원두 1kg",
+   "image": "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&q=80",
+   "meta": "프릳츠 · 11/14",
+   "value": "3.2만"
+  }
+ ],
+ "moreTitle": "21건 더 보기",
+ "more": [
+  {
+   "title": "택시",
+   "meta": "카카오T · 11/13",
+   "value": "1.4만"
+  },
+  {
+   "title": "점심",
+   "meta": "11/12",
+   "value": "1.1만"
+  },
+  {
+   "title": "넷플릭스",
+   "meta": "11/10",
+   "value": "1.7만"
+  },
+  {
+   "title": "주유",
+   "meta": "SK · 11/08",
+   "value": "7.0만"
+  }
+ ]
+}

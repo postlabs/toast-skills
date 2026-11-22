@@ -1,0 +1,15 @@
+{"lead": {"label": "관리비 정산서에 서명해 주세요", "detail": "관리사무소가 25일까지 받아야 해요"},
+ "eyebrow": "12월 6일 이사 · 13일 남음",
+ "title": "할 일 9개 중 6개 끝, 1개가 내 차례예요",
+ "summary": "이삿짐 견적과 인터넷 이전은 끝났고, 남은 건 관리비 정산과 전입신고, 청소 예약이에요.",
+ "progressTitle": "진행",
+ "segments": [{"label": "끝", "value": 6}, {"label": "남음", "value": 3, "muted": true}],
+ "checksTitle": "할 일",
+ "checks": [
+  {"title": "관리비 정산서 서명", "detail": "25일까지 · 관리사무소", "status": "내 차례", "tone": "warning"},
+  {"title": "입주 청소 예약", "detail": "12월 5일 오전으로 견적 2곳 비교 중", "status": "진행 중", "tone": "info"},
+  {"title": "전입신고", "detail": "이사 당일 정부24에서", "status": "예정", "tone": "neutral"},
+  {"title": "이삿짐 견적", "detail": "3곳 중 한빛이사 148만 원으로 확정", "status": "끝", "tone": "neutral"},
+  {"title": "인터넷 이전", "detail": "12월 6일 오후 2시 설치", "status": "끝", "tone": "neutral"},
+  {"title": "도시가스 이전", "detail": "12월 6일 오전 해지·연결", "status": "끝", "tone": "neutral"}
+ ]}
