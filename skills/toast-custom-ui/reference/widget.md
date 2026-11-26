@@ -9,7 +9,8 @@ its surface.
   whole `windows` list for one window.
 - Kinds: `card` (a small window with a real bar), `pinned` (stays on top), `wallpaper` (behind everything),
   `normal`.
-- A card's bar draws the icon, title, pin and close. The icon is the page's menu `icon`, or the page's own `icon`
+- A card's header shows its icon and title. Group Pin, Resize and Close at the trailing edge as supported, with Resize beside Close. Give each button its own non-draggable hit area so the rest of the header can move the window. Test resizing and moving separately at the narrowest supported width.
+- The icon is the page's menu `icon`, or the page's own `icon`
   when only a window draws it. Under the bar: at most one toolbar, then the content. Check the bar before any row.
 - Keep the frame’s header pinned while the body scrolls. Put long content in the body’s scroll area and keep its scrollbar visible whenever content overflows. Scroll a populated widget midway in the desktop preview and verify its title and window controls stay in place.
 - Sizes: `card` at 380×520 by default; "small", or one figure, is `place` 300×200 (a card takes its content's
