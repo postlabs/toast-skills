@@ -12,3 +12,5 @@ Open the actual components in the design preview over each supported wallpaper. 
 Check text and icons against both light and dark areas of the wallpaper. Keep close, pin and navigation actions reachable when content grows. Inspect the menu expanded and collapsed. Drag the menu and pinned paper by their background, then verify that buttons, links and editable text still handle their own gestures.
 
 Where placement persistence is in scope, move a window and reopen it in an isolated desktop profile. Record which checks ran in a browser preview and which exercised a native window. Capture the same content and window sizes after the change so the user can compare the pictures.
+
+Use the selected desk surface for the widget body, including editors and saved-item views. Check each look for controls or nested cards that force a default light palette.
