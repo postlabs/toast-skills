@@ -1,16 +1,12 @@
 ---
 name: toast-desktop-widgets
-description: Build and review Toast desktop widget sets, wallpaper menus and pinned notes. Use when working on how companion windows fit, move and read together on the desktop.
+description: Review Toast desktop setup, widget sizing and resizing, wallpaper, surface materials, placement and drag behavior.
 ---
 
-# Desktop widgets
+# Desktop setup and widgets
 
-List the surfaces the set opens on installation and those the user opens individually. Use the window specifications for each surface’s initial dimensions and placement. Read the [desk window reference](../toast-custom-ui/reference/widget.md) before editing window configuration.
+Read the [desk window reference](../toast-custom-ui/reference/widget.md) and the native window placement rules. Record initial bounds, visible surface bounds, resize limits and saved bounds. Check how auto-fit interacts with a size the user chose.
 
-Open the actual components in the design preview over each supported wallpaper. Show the whole desktop to check overlap, then capture each window at its native size to judge type, spacing and controls. Use representative fixture data, including a long title, an empty list and unavailable media where applicable.
+Open each desk look at the same display size. Capture the wallpaper alone and with companion windows at their starting positions. Inspect the gaps between windows, clearance around the clock, and visible edges against light and dark wallpaper. Use the selected desk material throughout the widget body. Check transparent margins and rounded corners against the wallpaper.
 
-Check text and icons against both light and dark areas of the wallpaper. Keep close, pin and navigation actions reachable when content grows. Inspect the menu expanded and collapsed. Drag the menu and pinned paper by their background, then verify that buttons, links and editable text still handle their own gestures.
-
-Where placement persistence is in scope, move a window and reopen it in an isolated desktop profile. Record which checks ran in a browser preview and which exercised a native window. Capture the same content and window sizes after the change so the user can compare the pictures.
-
-Use the selected desk surface for the widget body, including editors and saved-item views. Check each look for controls or nested cards that force a default light palette.
+Resize supported windows toward both limits. Check whether handles remain reachable at the display edge. Drag by the intended surface, reopen the window and verify its restored placement in an isolated desktop profile. Distinguish browser composition from native placement and compositing when recording results.
