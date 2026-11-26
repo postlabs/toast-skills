@@ -9,7 +9,9 @@ its surface.
   whole `windows` list for one window.
 - Kinds: `card` (a small window with a real bar), `pinned` (stays on top), `wallpaper` (behind everything),
   `normal`.
-- A card's header shows its icon and title. Group Pin, Resize and Close at the trailing edge as supported, with Resize beside Close. Give each button its own non-draggable hit area so the rest of the header can move the window. Test resizing and moving separately at the narrowest supported width.
+- Use the shared window header. Keep the icon and title visible. Group Pin, Resize and Close at the trailing edge as supported. Give each control a non-draggable hit area and keep the title draggable.
+- Reveal controls on header hover or keyboard focus, and keep them visible during resize. Use the window icon menu to choose **Always** or **Never**, including by keyboard. Authors can set `controls_visibility` to `"hover"` (default), `"always"` or `"never"` on a card in `patch.add_windows`.
+- Give each window action one home. Keep the body for content. Check the idle, hover and keyboard states at the narrowest supported width.
 - The icon is the page's menu `icon`, or the page's own `icon`
   when only a window draws it. Under the bar: at most one toolbar, then the content. Check the bar before any row.
 - Keep the frame’s header pinned while the body scrolls. Put long content in the body’s scroll area and keep its scrollbar visible whenever content overflows. Scroll a populated widget midway in the desktop preview and verify its title and window controls stay in place.
