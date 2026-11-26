@@ -135,4 +135,4 @@ way back. Everything else is in `reference/looks.md` and `reference/look-recipes
 - No generated default is left without a reason.
 - The checkpoints are answered, the defaults named, what was not seen said.
 
-For desktop widget sets, also follow [Desktop widgets](../toast-desktop-widgets/SKILL.md).
+Keep the window header pinned and show a scrollbar when the widget body overflows. For desktop widget sets, also follow [Desktop widgets](../toast-desktop-widgets/SKILL.md).

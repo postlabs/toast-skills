@@ -11,6 +11,7 @@ its surface.
   `normal`.
 - A card's bar draws the icon, title, pin and close. The icon is the page's menu `icon`, or the page's own `icon`
   when only a window draws it. Under the bar: at most one toolbar, then the content. Check the bar before any row.
+- Keep the frame’s header pinned while the body scrolls. Put long content in the body’s scroll area and keep its scrollbar visible whenever content overflows. Scroll a populated widget midway in the desktop preview and verify its title and window controls stay in place.
 - Sizes: `card` at 380×520 by default; "small", or one figure, is `place` 300×200 (a card takes its content's
   height up to that). Choose each block's size from what it shows at that width, and check the narrowest.
 
