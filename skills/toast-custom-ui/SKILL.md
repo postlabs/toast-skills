@@ -90,12 +90,13 @@ wrapping title. Get the frame right before the content. The details for each kin
 | Building | Read |
 |---|---|
 | A page, a dashboard, a list someone works through | `reference/page.md` |
-| A desk widget, a pinned card, a pop-out, a wallpaper window | `reference/widget.md` |
+| A desk widget, a pinned card, a pop-out, a wallpaper window; what a desk tool is made of | `reference/widget.md` |
 | A drawing no spread makes: a sealed atom or piece, outside libraries | `reference/sealed.md` |
 | The app's look: colours, type, pictures, motion, redrawn parts | `reference/looks.md` |
 | How to picture each surface | `reference/capture.md` |
 
-Write your own drawing only for the part no spread draws, and say why in one line. Never a second token system,
+Use a spread where it already draws the design. Where the person asked for a design no spread draws, write your
+own drawing for that part and say why in one line. Never a second token system,
 engine or hand-made mockup.
 
 ### 5. Look, critique, refine

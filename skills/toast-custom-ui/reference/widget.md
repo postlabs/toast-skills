@@ -3,6 +3,27 @@
 A desk window shows one page outside the app window. The window is the card: what you put in it sits directly on
 its surface.
 
+## What a desk tool is made of
+A desk tool has up to three parts. Settle each from the ask before building; a tool with no model work gets no
+agent part.
+
+- **Visual**: what appears. Start from the look and interaction the person asked for. A bespoke design is your own
+  drawing (`reference/sealed.md`); a shipped spread is used where it already draws that design, such as a calendar,
+  a table or a chart. One page can mix both.
+- **Code**: what runs on a click, a schedule or an event. A dough is the usual route for live data, refresh and
+  actions: write it with the dough-authoring skill and give it to the block as the feed that fills it (`source:`).
+  A piece's own frontend code, an installed kit or a Toast operation also serve. A dough step runs Python or
+  browser JavaScript; nothing launches other programs, so say so when the ask needs one.
+- **Agent**: work handed to a model, such as interpreting, summarising or writing. Add it only to the action that
+  needs it. Showing a saved answer, refreshing a source and arithmetic run without one.
+
+Keep the parts apart: the drawing takes its data and actions as inputs, so the person can restyle it without
+touching what runs, and another view can use the same data. Use what is already there when it fits (a shipped
+spread, an installed dough or kit); build what does not.
+
+A widget is one way a tool appears; the same tool can also be a page. The person's data, sign-ins and settings
+belong to their own copy and are never part of what is shared.
+
 ## The frame
 - Open or change one window with `patch.add_windows: [{id, page, kind, ...}]`. On an id that exists it keeps the
   fields you leave out, so changing `kind` or `on_top` never moves it. `remove_windows` closes ids. Never resend the

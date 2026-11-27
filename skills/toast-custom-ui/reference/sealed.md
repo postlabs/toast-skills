@@ -1,6 +1,6 @@
 # Drawings no spread makes: sealed atoms and pieces
 
-Write your own drawing only for the part no spread or composition draws. It must look like it belongs next to the
+Write your own drawing for the part no spread or composition already draws as the person asked. It must look like it belongs next to the
 app's own surfaces: the look's tokens, the look's font, two type sizes.
 
 ## Which kind
